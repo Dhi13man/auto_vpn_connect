@@ -127,3 +127,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+auto_vpn_connect_private.py
