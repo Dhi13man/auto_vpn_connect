@@ -130,6 +130,10 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ### Screenshots
 
-| ![Connect using Repository with VPN Data Config Path Provided](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/screenshots/connect_vpn_data_config_path.png) | ![Disconnect with CLI in Verbose Mode](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/screenshots/disconnect_verbose.png) |
-|:--:|:--:|
-| Connect using Repository with VPN Data Config Path Provided | Disconnect with CLI in Verbose Mode |
+| ![Connect using Repository with VPN Data Config Path Provided](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/screenshots/connect_vpn_data_config_path.png) |
+|:--:|
+| Connect using Repository, with VPN Data Config Path Provided |
+
+| ![Disconnect with CLI in Verbose Mode](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/screenshots/disconnect_verbose.png) |
+|:--:|
+| Disconnect using CLI, in Verbose Mode |
