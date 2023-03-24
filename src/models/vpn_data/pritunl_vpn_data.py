@@ -1,12 +1,10 @@
 from pyotp import totp, parse_uri
 from subprocess import run, CompletedProcess
-from zope.interface import implementer
 
-from src.models.vpn_data.interface import VpnDataInterface, VPN_ID_KEY, VPN_TYPE_KEY
-from src.enums.vpn_data.vpn_type import VpnType
+from src.models.vpn_data.abstract_vpn_data import AbstractVpnData, VPN_ID_KEY, VPN_TYPE_KEY
+from src.enums.vpn_data.vpn_type import VpnType, VpnTypeVisitor, T
 
-@implementer(VpnDataInterface)
-class PritunlVpnData:
+class PritunlVpnData(AbstractVpnData):
   _cli_path: str = "/Applications/Pritunl.app/Contents/Resources/pritunl-client"
   _pin_key: str = "pin"
   _token_key: str = "token"
@@ -52,7 +50,10 @@ class PritunlVpnData:
      "stop",
      self.get_id()
     ])
-  
+    
+  def visit(self, visitor: "VpnTypeVisitor[T]") -> T:
+      return visitor.visit_pritunl()
+
   def to_json(self) -> dict:
     return {
       VPN_ID_KEY: self.get_id(),
