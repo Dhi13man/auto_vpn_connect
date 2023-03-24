@@ -1,0 +1,3 @@
+pyotp==2.8.0
+zope==5.8.1
+zope.interface==5.5.2

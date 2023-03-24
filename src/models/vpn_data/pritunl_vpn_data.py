@@ -147,6 +147,7 @@ class PritunlVpnData(AbstractVpnData):
             AbstractVpnData.vpn_type_key: self.get_vpn_type(),
             PritunlVpnData._pin_key: self.get_pin(),
             PritunlVpnData._totp_url_key: self.totp_url,
+            PritunlVpnData._token_key: self.get_token(),
         }
 
     @staticmethod
@@ -156,6 +157,7 @@ class PritunlVpnData(AbstractVpnData):
             raise ValueError(f"Invalid VPN type {vpn_type} for PritunlVpnData")
         return PritunlVpnData(
             vpn_id=json[AbstractVpnData.vpn_id_key],
-            pin=json[PritunlVpnData._pin_key],
-            totp_url=json[PritunlVpnData._totp_url_key],
+            pin=json.get(PritunlVpnData._pin_key, ""),
+            totp_url=json.get(PritunlVpnData._totp_url_key, ""),
+            token=json.get(PritunlVpnData._token_key, "")
         )
