@@ -59,7 +59,7 @@ A Python script that allows users to automatically connect to VPNs with minimal 
 
     ```bash
     cd <path_to_repository>
-    python3 -m . --action <action> 
+    python3 -m . -a <action> 
     ```
 
     Running with action switch will run the script with the specified action. The available actions are:
@@ -72,24 +72,24 @@ A Python script that allows users to automatically connect to VPNs with minimal 
 
     ```bash
     cd <path_to_script>
-    ./auto_vpn_connect --vpn_data_path <path_to_vpn_data.json>
+    ./auto_vpn_connect -p <path_to_vpn_data.json>
     ```
 
     ```bash
     cd <path_to_repository>
-    python3 -m . --vpn_data_path <path_to_vpn_data.json>
+    python3 -m . --path <path_to_vpn_data.json>
     ```
 
 3. _Verbose Switch_ `-v` / `--verbose` (optional): The verbose switch allows the user to specify whether the script should print verbose output. If the switch is not specified, the script will run in non-verbose mode.
 
     ```bash
     cd <path_to_script>
-    ./auto_vpn_connect --verbose
+    ./auto_vpn_connect --verbose true
     ```
 
     ```bash
     cd <path_to_repository>
-    python3 -m . --verbose
+    python3 -m . -v true
     ```
 
 ### Examples
