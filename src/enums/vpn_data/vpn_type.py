@@ -22,7 +22,7 @@ class VpnType(Enum):
     def visit(self, visitor: 'VpnTypeVisitor[T]') -> T:
         '''
         Visit the VPN type.
-        
+
         Args:
             visitor (VpnTypeVisitor[T]): Visitor to visit the VPN type
         '''
