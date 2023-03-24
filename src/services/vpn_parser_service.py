@@ -39,7 +39,7 @@ class _VpnParsingVisitor:
         raise ValueError('Invalid VPN type')
 
 
-class VpnParserService:
+class VpnDataParserService:
     '''
     Service for parsing VPN data from JSON
     
@@ -47,16 +47,38 @@ class VpnParserService:
         vpn_data (str): VPN data to parse
     '''
 
+    _vpn_list_key: str = 'vpn_list'
+    _config_key: str = 'config'
+
     def parse_vpn_data(self, vpn_data: str) -> list[AbstractVpnData]:
         '''
-        Parse VPN data from JSON
+        Parse VPN data from JSON.
+        
+        Also injects any global configs into the VPN data classes.
         
         Args:
             vpn_data (str): VPN data to parse
+        
+        Returns:
+            list[AbstractVpnData]: List of VPN data objects
         '''
+        vpn_data_dict: dict = loads(vpn_data)
+        self.inject_configs(vpn_data_dict.get(VpnDataParserService._config_key, {}))
         vpn_list: list[AbstractVpnData] = []
-        for vpn_json in loads(vpn_data):
+        for vpn_json in vpn_data_dict[VpnDataParserService._vpn_list_key]:
             vpn_type: VpnType = VpnType(vpn_json[AbstractVpnData.vpn_type_key])
             vpn: AbstractVpnData = vpn_type.visit(_VpnParsingVisitor(vpn_json))
             vpn_list.append(vpn)
         return vpn_list
+
+    def inject_configs(self, vpn_config: dict):
+        '''
+        Inject global configs into the VPN data classes.
+        
+        Args:
+            vpn_config (dict): Global config map to inject from the JSON
+        '''
+        # Check if Pritunl config exists
+        if vpn_config.get(VpnType.PRITUNL.value):
+            pritunl_config: dict = vpn_config[VpnType.PRITUNL.value]
+            PritunlVpnData.cli_path = pritunl_config.get('cli_path', PritunlVpnData.cli_path)
