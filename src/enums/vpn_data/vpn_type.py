@@ -36,7 +36,7 @@ class VpnType(Enum):
             return visitor.visit_open_vpn()
         raise ValueError('VPN Type visit not implemented')
 
-
+# pylint: disable-next=inherit-non-class
 class VpnTypeVisitor(Interface):
     '''
     Visitor for VPN types. This is used to visit the VPN type and return the
