@@ -22,8 +22,8 @@ class PritunlVpnData(AbstractVpnData):
         totp_obj (pyotp.TOTP): TOTP object of the Pritunl VPN
     '''
 
+    cli_path: str = "/Applications/Pritunl.app/Contents/Resources/pritunl-client"
     _vpn_type: VpnType = VpnType.PRITUNL
-    _cli_path: str = "/Applications/Pritunl.app/Contents/Resources/pritunl-client"
     _pin_key: str = "pin"
     _token_key: str = "token"
     _totp_url_key: str = "totp_url"
@@ -94,10 +94,10 @@ class PritunlVpnData(AbstractVpnData):
         token: str = self.get_token()
         if verbose:
             print(f"Connecting to {self.get_vpn_id()}...")
-            print("Pin: {pin}; TOTP: {totp}; Token: {token}")
+            print(f"Pin: {pin}; TOTP: {totp}; Token: {token}")
         process: CompletedProcess = run(
             [
-                PritunlVpnData._cli_path,
+                PritunlVpnData.cli_path,
                 "start",
                 self.get_vpn_id(),
                 "-p",
@@ -121,7 +121,7 @@ class PritunlVpnData(AbstractVpnData):
             print(f"Disconnecting from {self.get_vpn_id()}")
         process: CompletedProcess = run(
             [
-                PritunlVpnData._cli_path,
+                PritunlVpnData.cli_path,
                 "stop",
                 self.get_vpn_id()
             ],

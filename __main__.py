@@ -7,7 +7,7 @@ import argparse
 
 from src.models.user_switches import UserSwitches
 from src.models.vpn_data import abstract_vpn_data
-from src.services.vpn_parser_service import VpnParserService
+from src.services.vpn_parser_service import VpnDataParserService
 
 PROMPT: str = 'Run in Connect (c), Disconnect (d), or be in Always-Connected mode (w)'
 DEFAULT_VPN_DATA_PATH: str = './vpn_data.json'
@@ -55,7 +55,7 @@ if __name__ == '__main__':
     # List all VPNs
     vpn_data_list: list[abstract_vpn_data.AbstractVpnData] = []
     with open(user_switches.vpn_data_json_path, 'r', encoding='utf-8') as f:
-        vpn_parser_service: VpnParserService = VpnParserService()
+        vpn_parser_service: VpnDataParserService = VpnDataParserService()
         vpn_data_list = vpn_parser_service.parse_vpn_data(f.read())
 
     while True:
