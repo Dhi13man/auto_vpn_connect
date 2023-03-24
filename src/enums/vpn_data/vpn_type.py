@@ -1,6 +1,6 @@
 from enum import Enum
-from typing import TypeVar, Generic
-from zope.interface import Interface, interfacemethod
+from typing import TypeVar
+from zope.interface import interfacemethod, Interface
 
 T = TypeVar("T")
 
@@ -10,6 +10,7 @@ class VpnType(Enum):
     NONE: str = "NONE"
     PRITUNL: str = "PRITUNL"
     WIREGUARD: str = "WIREGUARD" 
+    OPEN_VPN: str = "OPEN_VPN"
 
     def visit(self, visitor: "VpnTypeVisitor[T]") -> T:
         """Visit VPN data."""
@@ -19,10 +20,12 @@ class VpnType(Enum):
             return visitor.visit_pritunl()
         elif self == VpnType.WIREGUARD:
             return visitor.visit_wireguard()
+        elif self == VpnType.OPEN_VPN:
+            return visitor.visit_open_vpn()
         else:
-            raise ValueError("Invalid VPN type")
+            raise ValueError("VPN Type visit not implemented")
 
-class VpnTypeVisitor(Generic[T]):
+class VpnTypeVisitor(Interface):
     """Visitor for VPN types."""
     
     @interfacemethod
@@ -33,6 +36,11 @@ class VpnTypeVisitor(Generic[T]):
     @interfacemethod
     def visit_wireguard(self) -> T:
         """Visit Wireguard VPN data."""
+        raise NotImplementedError
+    
+    @interfacemethod
+    def visit_open_vpn(self) -> T:
+        """Visit OpenVPN VPN data."""
         raise NotImplementedError
 
     @interfacemethod
