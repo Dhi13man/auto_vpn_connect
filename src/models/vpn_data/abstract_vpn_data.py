@@ -16,11 +16,11 @@ class AbstractVpnData(ABC):
         return VpnType.NONE
     
     @abstractmethod
-    def connect(self) -> CompletedProcess:
+    def connect(self, verbose: bool) -> CompletedProcess:
         raise NotImplementedError
 
     @abstractmethod
-    def disconnect(self) -> CompletedProcess:
+    def disconnect(self, verbose: bool) -> CompletedProcess:
         raise NotImplementedError
     
     def visit(self, visitor: "VpnTypeVisitor[T]") -> T:

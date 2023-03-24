@@ -32,24 +32,36 @@ class PritunlVpnData(AbstractVpnData):
   def get_totp(self) -> str:
     return self.totp_obj.now() if self.totp_obj else ""
 
-  def connect(self) -> CompletedProcess:
+  def connect(self, verbose: bool) -> CompletedProcess:
     pin: str = self.get_pin()
     totp: str = self.get_totp()
     token: str = self.get_token()
-    return run([
+    if verbose:
+      print(f"Connecting to {self.get_id()} with pin: {pin}; totp: {totp}; token: {token}")
+    process: CompletedProcess = run([
       PritunlVpnData._cli_path,
       "start",
       self.get_id(),
       "-p",
       f"{pin}{totp}{token}"
     ])
+    if verbose:
+      print("Connect process completed!")
+      print(f"Result: {process.stdout}; Error: {process.stderr}")
+    return process
 
-  def disconnect(self) -> CompletedProcess:
-    return run([
+  def disconnect(self, verbose: bool) -> CompletedProcess:
+    if verbose:
+      print(f"Disconnecting from {self.get_id()}")
+    process: CompletedProcess = run([
      PritunlVpnData._cli_path,
      "stop",
      self.get_id()
     ])
+    if verbose:
+      print(f"Disconnect process completed!")
+      print(f"Result: {process.stdout}; Error: {process.stderr}")
+    return process
     
   def visit(self, visitor: "VpnTypeVisitor[T]") -> T:
       return visitor.visit_pritunl()
