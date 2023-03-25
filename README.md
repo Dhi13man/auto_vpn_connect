@@ -119,10 +119,27 @@ cd <path_to_script>
 
 ### Dependencies
 
+#### Development Dependencies
+
 - [Python 3.10+](https://www.python.org/downloads/): Used for developing the script
 - [pyotp](https://pypi.org/project/pyotp/): Used for generating OTPs
 - [zope](https://pypi.org/project/zope/): Used for type hinting
-- [Pritunl VPN](https://docs.pritunl.com/docs/command-line-interface): Used for connecting, disconnecting to VPNs (only supported VPN type as of now)
+
+#### External Dependencies
+
+- [Pritunl VP Client](https://docs.pritunl.com/docs/command-line-interface): Used for connecting, disconnecting to VPNs (only supported VPN type as of now)
+
+## Build
+
+This project uses [PyInstaller](https://www.pyinstaller.org/) to build the binary. To build the binary, run the following command from the root of the repository:
+
+```bash
+pyinstaller --onefile --windowed __main__.py
+```
+
+This will create a `dist` folder in the root of the repository, which will contain the binary without any dependencies.
+
+The binary can be run from anywhere following the [Usage](#usage) instructions.
 
 ### Contributing
 
