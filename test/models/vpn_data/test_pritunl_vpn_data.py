@@ -1,14 +1,11 @@
 '''
-Test Abstract VPN Data Model module
+Test Pritunl VPN Data Model module
 '''
 
-import pytest
 from zope.interface import implementer
 
 from src.enums.vpn_data.vpn_type import VpnType, VpnTypeVisitor
-from src.models.vpn_data.abstract_vpn_data import AbstractVpnData
 from src.models.vpn_data.pritunl_vpn_data import PritunlVpnData
-
 # pylint: disable=duplicate-code
 
 
@@ -35,29 +32,46 @@ class _TestVpnTypeVisitor:
         return VpnType.NONE
 
 
-class TestAbstractVpnData:
+class TestPritunlVpnData:
     '''
-    Test AbstractVpnData class
+    Test PritunlVpnData class
     '''
+    mock_vpn_type: str = 'PRITUNL'
     mock_vpn_id: str = 'test_id'
-    sut: AbstractVpnData = PritunlVpnData(mock_vpn_id)
+    mock_pin: str = 'test_pin'
+    mock_token: str = 'test_token'
+    mock_totp_url: str = 'otpauth://totp/test.package@tester?secret=TEST_SECRET&issuer=test'
+    mock_vpn_id: str = 'test_id'
+    mock_json: dict = {
+        'vpn_type': mock_vpn_type,
+        'vpn_id': mock_vpn_id,
+        'pin': mock_pin,
+        'token': mock_token,
+        'totp_url': mock_totp_url
+    }
+    sut: PritunlVpnData = PritunlVpnData(
+        mock_vpn_id,
+        pin=mock_pin,
+        token=mock_token,
+        totp_url=mock_totp_url
+    )
 
     def test_get_vpn_id(self):
         '''
         Test get_vpn_id method
         '''
         # Act
-        actual_vpn_id: str = TestAbstractVpnData.sut.get_vpn_id()
+        actual_vpn_id: str = TestPritunlVpnData.sut.get_vpn_id()
 
         # Assert
-        assert TestAbstractVpnData.mock_vpn_id == actual_vpn_id
+        assert TestPritunlVpnData.mock_vpn_id == actual_vpn_id
 
     def test_get_vpn_type(self):
         '''
         Test get_vpn_type method
         '''
         # Act
-        actual_vpn_type: VpnType = TestAbstractVpnData.sut.get_vpn_type()
+        actual_vpn_type: VpnType = TestPritunlVpnData.sut.get_vpn_type()
 
         # Assert
         assert VpnType.PRITUNL == actual_vpn_type
@@ -70,7 +84,7 @@ class TestAbstractVpnData:
         test_visitor: _TestVpnTypeVisitor = _TestVpnTypeVisitor()
 
         # Act
-        actual_vpn_type: VpnType = TestAbstractVpnData.sut.visit(test_visitor)
+        actual_vpn_type: VpnType = TestPritunlVpnData.sut.visit(test_visitor)
 
         # Assert
         assert VpnType.PRITUNL == actual_vpn_type
@@ -80,30 +94,21 @@ class TestAbstractVpnData:
         Test to_json method
         '''
         # Act
-        actual_json: dict = TestAbstractVpnData.sut.to_json()
-        expected_json: dict = {
-            'vpn_id': 'test_id',
-            'vpn_type': 'PRITUNL',
-            'pin': '', 
-            'totp_url': '',
-            'token': ''
-        }
+        actual_json: dict = TestPritunlVpnData.sut.to_json()
 
         # Assert
-        assert expected_json == actual_json
+        assert TestPritunlVpnData.mock_json == actual_json
 
     def test_from_json(self):
         '''
         Test from_json method
         '''
-        # Arrange
-        json_str: dict = {'vpn_id': 'test_id', 'vpn_type': ''}
-
         # Act
-        with pytest.raises(TypeError) as excinfo:
-            AbstractVpnData.from_json(json_str)
+        actual_vpn_data: PritunlVpnData = PritunlVpnData.from_json(
+            TestPritunlVpnData.mock_json)
 
-            # Assert
-            assert excinfo.match(
-                'Can\'t instantiate abstract class AbstractVpnData with abstract methods'
-            )
+        # Assert
+        assert TestPritunlVpnData.mock_vpn_id == actual_vpn_data.get_vpn_id()
+        assert TestPritunlVpnData.mock_vpn_type == actual_vpn_data.get_vpn_type().value
+        assert TestPritunlVpnData.mock_pin == actual_vpn_data.get_pin()
+        assert TestPritunlVpnData.mock_token == actual_vpn_data.get_token()

@@ -22,14 +22,14 @@ class PritunlVpnData(AbstractVpnData):
         totp_obj (pyotp.TOTP): TOTP object of the Pritunl VPN
     '''
 
-    cli_path: str = "/Applications/Pritunl.app/Contents/Resources/pritunl-client"
-    cli_path_key: str = "cli_path"
+    cli_path: str = '/Applications/Pritunl.app/Contents/Resources/pritunl-client'
+    cli_path_key: str = 'cli_path'
     _vpn_type: VpnType = VpnType.PRITUNL
-    _pin_key: str = "pin"
-    _token_key: str = "token"
-    _totp_url_key: str = "totp_url"
+    _pin_key: str = 'pin'
+    _token_key: str = 'token'
+    _totp_url_key: str = 'totp_url'
 
-    def __init__(self, vpn_id: str, *, pin: str = "", totp_url: str = "", token: str = "") -> None:
+    def __init__(self, vpn_id: str, *, pin: str = '', totp_url: str = '', token: str = '') -> None:
         super().__init__(vpn_id)
         self.pin: str = pin
         self.token: str = token
@@ -71,7 +71,7 @@ class PritunlVpnData(AbstractVpnData):
         Returns:
             str: TOTP of the Pritunl VPN
         '''
-        return self.totp_obj.now() if self.totp_obj else ""
+        return self.totp_obj.now() if self.totp_obj else ''
 
     def connect(self, verbose: bool) -> CompletedProcess:
         '''
@@ -84,21 +84,21 @@ class PritunlVpnData(AbstractVpnData):
         vpn_totp: str = self.get_totp()
         token: str = self.get_token()
         if verbose:
-            print(f"Connecting to {self.get_vpn_id()}...")
-            print(f"Pin: {pin}; TOTP: {totp}; Token: {token}")
+            print(f'Connecting to {self.get_vpn_id()}...')
+            print(f'Pin: {pin}; TOTP: {totp}; Token: {token}')
         process: CompletedProcess = run(
             [
                 PritunlVpnData.cli_path,
-                "start",
+                'start',
                 self.get_vpn_id(),
-                "-p",
-                f"{pin}{vpn_totp}{token}"
+                '-p',
+                f'{pin}{vpn_totp}{token}'
             ],
             check=False,
         )
         if verbose:
-            print("Connect process completed!")
-            print(f"Result: {process.stdout}; Error: {process.stderr}")
+            print('Connect process completed!')
+            print(f'Result: {process.stdout}; Error: {process.stderr}')
         return process
 
     def disconnect(self, verbose: bool) -> CompletedProcess:
@@ -109,21 +109,21 @@ class PritunlVpnData(AbstractVpnData):
             verbose (bool): Whether to print the output of the disconnection process
         '''
         if verbose:
-            print(f"Disconnecting from {self.get_vpn_id()}")
+            print(f'Disconnecting from {self.get_vpn_id()}')
         process: CompletedProcess = run(
             [
                 PritunlVpnData.cli_path,
-                "stop",
+                'stop',
                 self.get_vpn_id()
             ],
             check=False,
         )
         if verbose:
-            print("Disconnect process completed!")
-            print(f"Result: {process.stdout}; Error: {process.stderr}")
+            print('Disconnect process completed!')
+            print(f'Result: {process.stdout}; Error: {process.stderr}')
         return process
 
-    def visit(self, visitor: "VpnTypeVisitor[T]") -> T:
+    def visit(self, visitor: 'VpnTypeVisitor[T]') -> T:
         '''
         Visit the Pritunl VPN with a VpnTypeVisitor.
 
@@ -142,13 +142,13 @@ class PritunlVpnData(AbstractVpnData):
         }
 
     @staticmethod
-    def from_json(json: dict) -> "PritunlVpnData":
+    def from_json(json: dict) -> 'PritunlVpnData':
         vpn_type: VpnType = VpnType(json[AbstractVpnData.vpn_type_key])
         if vpn_type != PritunlVpnData._vpn_type:
-            raise ValueError(f"Invalid VPN type {vpn_type} for PritunlVpnData")
+            raise ValueError(f'Invalid VPN type {vpn_type} for PritunlVpnData')
         return PritunlVpnData(
             vpn_id=json[AbstractVpnData.vpn_id_key],
-            pin=json.get(PritunlVpnData._pin_key, ""),
-            totp_url=json.get(PritunlVpnData._totp_url_key, ""),
-            token=json.get(PritunlVpnData._token_key, "")
+            pin=json.get(PritunlVpnData._pin_key, ''),
+            totp_url=json.get(PritunlVpnData._totp_url_key, ''),
+            token=json.get(PritunlVpnData._token_key, '')
         )
