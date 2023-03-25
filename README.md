@@ -51,6 +51,41 @@ A Python script that allows users to automatically connect to VPNs with minimal 
 
 3. After ensuring that the `vpn_data.json` is proper, run the downloaded binary, or the script with `python3 -m .` from the root of the repository along with the proper switches.
 
+### Finding the VPN Data
+
+#### Pritunl VPN Client
+
+1. _`vpn_list.{item}.vpn_id`_: In the Pritunl VPN Client, go to the `Settings` of the respective VPN Profile to find the VPN ID or use the `pritunl-client` CLI command `list` to get the list of VPNs and their IDs.
+
+    ```bash
+    /Applications/Pritunl.app/Contents/Resources/pritunl-client list
+    ```
+
+2. _`vpn_list.{item}.pin`_: This is the PIN that you use to connect to the VPN. If there is no PIN, leave the field blank.
+
+3. _`vpn_list.{item}.totp_url`_: This is the URL in the payload of the TOTP QR code that you use to connect to the VPN. If there is no TOTP QR code, leave the field blank.
+
+4. _`vpn_list.{item}.token`_: This is the token that you use to connect to the VPN. If there is no token, leave the field blank.
+
+5. _`vpn_list.{item}.vpn_type`_: This is the type of VPN that you are connecting to. For Pritunl VPN client, this will be `PRITUNL`.
+
+6. _`config.PRITUNL.cli_path`_: This is the path to the Pritunl VPN Client CLI. If the Pritunl VPN Client is installed in the default location, leave the field blank.
+
+Further resources:
+
+1. [Pritunl VPN Client CLI](https://docs.pritunl.com/docs/command-line-interface)
+2. [Pritunl VPN Client UI](https://client.pritunl.com/)
+
+##### Pritunl VPN Client Screenshots
+
+| ![VPN ID in Pritunl Client UI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/get_pritunl_id_cli.png) | ![VPN ID in Pritunl Client CLI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/get_pritunl_id_cli.png) |
+|:--:|:--:|
+| VPN ID in Pritunl Client UI | VPN ID in Pritunl Client CLI |
+
+| ![Add VPN in Pritunl Client UI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/add_pritunl_vpn_ui.png) | ![Add VPN in Pritunl Client CLI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/add_pritunl_vpn_cli.png) |
+|:--:|:--:|
+| Add VPN in Pritunl Client UI | Add VPN in Pritunl Client CLI |
+
 ### User Switches
 
 1. _Action Switch_ `-a` / `--action` (optional): The action switch allows the user to specify the action that the script should perform. If the action switch is not specified, the script will run in interactive mode, which will prompt the user to select an action.
