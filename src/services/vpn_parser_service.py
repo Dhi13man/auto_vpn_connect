@@ -83,4 +83,6 @@ class VpnDataParserService:
         if vpn_config.get(VpnType.PRITUNL.value):
             pritunl_config: dict = vpn_config[VpnType.PRITUNL.value]
             PritunlVpnData.cli_path = pritunl_config.get(
-                'cli_path', PritunlVpnData.cli_path)
+                PritunlVpnData.cli_path_key,
+                PritunlVpnData.cli_path
+            )
