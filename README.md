@@ -141,11 +141,11 @@ This will create a `dist` folder in the root of the repository, which will conta
 
 The binary can be run from anywhere following the [Usage](#usage) instructions.
 
-### Contributing
+## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
-### Screenshots
+## Screenshots
 
 | ![Connect using Repository with VPN Data Config Path Provided](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/screenshots/connect_vpn_data_config_path.png) |
 |:--:|
