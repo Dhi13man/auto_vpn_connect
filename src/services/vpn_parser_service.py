@@ -30,7 +30,7 @@ class _VpnParsingVisitor:
         '''Visit Wireguard VPN type'''
         raise NotImplementedError
 
-    def visit_openvpn(self) -> AbstractVpnData:
+    def visit_open_vpn(self) -> AbstractVpnData:
         '''Visit OpenVPN VPN type'''
         raise NotImplementedError
 
@@ -63,8 +63,8 @@ class VpnDataParserService:
             list[AbstractVpnData]: List of VPN data objects
         '''
         vpn_data_dict: dict = loads(vpn_data)
-        self.inject_configs(vpn_data_dict.get(
-            VpnDataParserService._config_key, {}))
+        vpn_config: dict = vpn_data_dict.get(VpnDataParserService._config_key, {})
+        self.inject_configs(vpn_config)
         vpn_list: list[AbstractVpnData] = []
         for vpn_json in vpn_data_dict[VpnDataParserService._vpn_list_key]:
             vpn_type: VpnType = VpnType(vpn_json[AbstractVpnData.vpn_type_key])
@@ -79,6 +79,7 @@ class VpnDataParserService:
         Args:
             vpn_config (dict): Global config map to inject from the JSON
         '''
+        print('Injecting global configs...', vpn_config)
         # Check if Pritunl config exists
         if vpn_config.get(VpnType.PRITUNL.value):
             pritunl_config: dict = vpn_config[VpnType.PRITUNL.value]
@@ -86,3 +87,4 @@ class VpnDataParserService:
                 PritunlVpnData.cli_path_key,
                 PritunlVpnData.cli_path
             )
+            print(f'Pritunl CLI path: {PritunlVpnData.cli_path}')

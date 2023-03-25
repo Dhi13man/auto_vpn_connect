@@ -31,21 +31,11 @@ class PritunlVpnData(AbstractVpnData):
 
     def __init__(self, vpn_id: str, *, pin: str = "", totp_url: str = "", token: str = "") -> None:
         super().__init__(vpn_id)
-        self.vpn_id: str = vpn_id
         self.pin: str = pin
         self.token: str = token
         self.totp_url: str = totp_url
         has_totp_url: bool = len(totp_url) > 0
         self.totp_obj: totp.TOTP = parse_uri(totp_url) if has_totp_url else None
-
-    def get_vpn_id(self) -> str:
-        '''
-        Get the ID of the Pritunl VPN.
-
-        Returns:
-            str: ID of the Pritunl VPN
-        '''
-        return self.vpn_id
 
     def get_vpn_type(self) -> VpnType:
         '''
@@ -145,7 +135,7 @@ class PritunlVpnData(AbstractVpnData):
     def to_json(self) -> dict:
         return {
             AbstractVpnData.vpn_id_key: self.get_vpn_id(),
-            AbstractVpnData.vpn_type_key: self.get_vpn_type(),
+            AbstractVpnData.vpn_type_key: self.get_vpn_type().value,
             PritunlVpnData._pin_key: self.get_pin(),
             PritunlVpnData._totp_url_key: self.totp_url,
             PritunlVpnData._token_key: self.get_token(),

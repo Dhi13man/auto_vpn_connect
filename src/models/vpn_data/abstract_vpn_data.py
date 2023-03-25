@@ -16,14 +16,13 @@ class AbstractVpnData(ABC):
         vpn_id (str): ID of the VPN
     '''
 
-    vpn_id_key: str = "id"
+    vpn_id_key: str = "vpn_id"
     vpn_type_key: str = "vpn_type"
     _vpn_type: VpnType = VpnType.NONE
 
     def __init__(self, vpn_id: str) -> None:
         self.vpn_id: str = vpn_id
 
-    @abstractmethod
     def get_vpn_id(self) -> str:
         '''
         Get the ID of the VPN.
@@ -31,9 +30,8 @@ class AbstractVpnData(ABC):
         Returns:
             str: ID of the VPN
         '''
-        raise self.vpn_id
+        return self.vpn_id
 
-    @abstractmethod
     def get_vpn_type(self) -> VpnType:
         '''
         Get the type of the VPN.
@@ -81,15 +79,14 @@ class AbstractVpnData(ABC):
         '''
         return f"{self.get_vpn_type()}_{self.get_vpn_id()}"
 
-    @abstractmethod
-    def to_json(self) -> str:
+    def to_json(self) -> dict:
         '''
         Convert the VPN data to a JSON string.
 
         Returns:
             str: JSON string of the VPN data
         '''
-        return {'vpn_id': self.get_vpn_id(), 'vpn_type': self.get_vpn_type()}
+        return {'vpn_id': self.get_vpn_id(), 'vpn_type': self.get_vpn_type().value}
 
     @staticmethod
     def from_json(json: dict) -> "AbstractVpnData":
@@ -101,5 +98,5 @@ class AbstractVpnData(ABC):
         '''
         vpn_type: VpnType = VpnType(json[AbstractVpnData.vpn_type_key])
         if vpn_type != AbstractVpnData._vpn_type:
-            raise ValueError(f"Invalid VPN type {vpn_type} for PritunlVpnData")
+            raise ValueError(f"Invalid VPN type {vpn_type} for AbstractVpnData")
         return AbstractVpnData(vpn_id=json[AbstractVpnData.vpn_id_key])

@@ -29,18 +29,18 @@ A Python script that allows users to automatically connect to VPNs with minimal 
         },
         "vpn_list": [
             {
-                "id": "<vpn_id_1>",
+                "vpn_id": "<vpn_id_1>",
                 "vpn_type": "PRITUNL",
                 "pin": "<vpn_pin_1>",
             },
             {
-                "id": "<vpn_id_2>",
+                "vpn_id": "<vpn_id_2>",
                 "vpn_type": "PRITUNL",
                 "pin": "<vpn_pin_2>",
                 "totp_url": "<totp_url>"
             },
             {
-                "id": "<vpn_id_3>",
+                "vpn_id": "<vpn_id_3>",
                 "vpn_type": "PRITUNL", 
                 "pin": "<vpn_pin_3>",
                 "token": "<vpn_token>"

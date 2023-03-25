@@ -14,7 +14,7 @@ class VpnType(Enum):
     VPN type enumeration.
     '''
 
-    NONE: str = 'NONE'
+    NONE: str = ''
     PRITUNL: str = 'PRITUNL'
     WIREGUARD: str = 'WIREGUARD'
     OPEN_VPN: str = 'OPEN_VPN'
