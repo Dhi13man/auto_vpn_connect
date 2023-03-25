@@ -9,6 +9,8 @@ from src.enums.vpn_data.vpn_type import VpnType, VpnTypeVisitor
 from src.models.vpn_data.abstract_vpn_data import AbstractVpnData
 from src.models.vpn_data.pritunl_vpn_data import PritunlVpnData
 
+# pylint: disable=duplicate-code
+
 
 @implementer(VpnTypeVisitor)
 class _TestVpnTypeVisitor:
