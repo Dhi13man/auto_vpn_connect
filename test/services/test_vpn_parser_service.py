@@ -27,13 +27,13 @@ class TestVpnParserService:
         mock_token: str = 'test_token'
         mock_totp_url: str = 'otpauth://totp/test.package@tester?secret=TEST_SECRET&issuer=test'
         vpn_data: dict = {
-            "vpn_list": [
+            'vpn_list': [
                 {
-                    "vpn_type": mock_vpn_type,
-                    "vpn_id": mock_vpn_id,
-                    "pin": mock_pin,
-                    "token": mock_token,
-                    "totp_url": mock_totp_url
+                    'vpn_type': mock_vpn_type,
+                    'vpn_id': mock_vpn_id,
+                    'pin': mock_pin,
+                    'token': mock_token,
+                    'totp_url': mock_totp_url
                 }
             ]
         }

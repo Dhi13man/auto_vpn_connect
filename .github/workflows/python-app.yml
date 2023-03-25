@@ -43,4 +43,4 @@ jobs:
         pyinstaller --onefile --noconsole --name "test" __main__.py
     - name: Test with pytest
       run: |
-        pytest
+        python -m pytest

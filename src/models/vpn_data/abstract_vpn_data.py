@@ -16,8 +16,8 @@ class AbstractVpnData(ABC):
         vpn_id (str): ID of the VPN
     '''
 
-    vpn_id_key: str = "vpn_id"
-    vpn_type_key: str = "vpn_type"
+    vpn_id_key: str = 'vpn_id'
+    vpn_type_key: str = 'vpn_type'
     _vpn_type: VpnType = VpnType.NONE
 
     def __init__(self, vpn_id: str) -> None:
@@ -61,7 +61,7 @@ class AbstractVpnData(ABC):
         '''
         raise NotImplementedError
 
-    def visit(self, visitor: "VpnTypeVisitor[T]") -> T:
+    def visit(self, visitor: 'VpnTypeVisitor[T]') -> T:
         '''
         Visit the VPN with a VpnTypeVisitor.
 
@@ -70,14 +70,14 @@ class AbstractVpnData(ABC):
         '''
         return visitor.visit_none()
 
-    def get_global_id(self) -> str:
+    def get_global_vpn_id(self) -> str:
         '''
         Get the global ID of the VPN.
 
         Returns:
             str: Global ID of the VPN. This is the ID of the VPN prefixed with the type of the VPN.
         '''
-        return f"{self.get_vpn_type()}_{self.get_vpn_id()}"
+        return f'{self.get_vpn_type().name}_{self.get_vpn_id()}'
 
     def to_json(self) -> dict:
         '''
@@ -89,7 +89,7 @@ class AbstractVpnData(ABC):
         return {'vpn_id': self.get_vpn_id(), 'vpn_type': self.get_vpn_type().value}
 
     @staticmethod
-    def from_json(json: dict) -> "AbstractVpnData":
+    def from_json(json: dict) -> 'AbstractVpnData':
         '''
         Create a VPN data object from a JSON string.
 
@@ -98,5 +98,5 @@ class AbstractVpnData(ABC):
         '''
         vpn_type: VpnType = VpnType(json[AbstractVpnData.vpn_type_key])
         if vpn_type != AbstractVpnData._vpn_type:
-            raise ValueError(f"Invalid VPN type {vpn_type} for AbstractVpnData")
+            raise ValueError(f'Invalid VPN type {vpn_type} for AbstractVpnData')
         return AbstractVpnData(vpn_id=json[AbstractVpnData.vpn_id_key])
