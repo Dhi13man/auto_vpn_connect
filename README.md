@@ -78,7 +78,7 @@ Further resources:
 
 ##### Pritunl VPN Client Screenshots
 
-| ![VPN ID in Pritunl Client UI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/get_pritunl_id_cli.png) | ![VPN ID in Pritunl Client CLI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/get_pritunl_id_cli.png) |
+| ![VPN ID in Pritunl Client UI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/get_pritunl_id_ui.png) | ![VPN ID in Pritunl Client CLI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/get_pritunl_id_cli.png) |
 |:--:|:--:|
 | VPN ID in Pritunl Client UI | VPN ID in Pritunl Client CLI |
 
