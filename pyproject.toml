@@ -1,3 +1,7 @@
+[build-system]
+requires = ["hatchling", "wheel"]
+build-backend = "hatchling.build"
+
 [project]
 name = "auto_vpn_connect"
 version = "0.0.1"
@@ -17,9 +21,8 @@ classifiers = [
 "Homepage" = "https://github.com/Dhi13man/auto_vpn_connect"
 "Bug Tracker" = "https://github.com/Dhi13man/auto_vpn_connect/issues"
 
-[build-system]
-requires = [
-  "setuptools >= 40.9.0",
-  "wheel",
+[tool.pytest.ini_options]
+pythonpath = "test"
+addopts = [
+    "--import-mode=importlib",
 ]
-build-backend = "setuptools.build_meta"
