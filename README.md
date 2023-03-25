@@ -13,6 +13,8 @@ A Python script that allows users to automatically connect to VPNs with minimal 
 
 ## Usage
 
+### Steps
+
 1. Go to the [releases](https://github.com/Dhi13man/auto_vpn_connect/releases) page and download the latest release binary, or clone this repository.
 
 2. In the same directory as the script, or inside the root of the repository, create a file called `vpn_data.json` and fill it with the following information (replace the values with your own):
@@ -127,7 +129,7 @@ cd <path_to_script>
 
 #### External Dependencies
 
-- [Pritunl VP Client](https://docs.pritunl.com/docs/command-line-interface): Used for connecting, disconnecting to VPNs (only supported VPN type as of now)
+- [Pritunl VPN Client](https://docs.pritunl.com/docs/command-line-interface): Used for connecting, disconnecting to VPNs (only supported VPN type as of now)
 
 ## Build
 
