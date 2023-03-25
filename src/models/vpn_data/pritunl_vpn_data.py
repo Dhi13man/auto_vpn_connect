@@ -85,7 +85,7 @@ class PritunlVpnData(AbstractVpnData):
         token: str = self.get_token()
         if verbose:
             print(f'Connecting to {self.get_vpn_id()}...')
-            print(f'Pin: {pin}; TOTP: {totp}; Token: {token}')
+            print(f'Pin: {pin}; TOTP: {vpn_totp}; Token: {token}')
         process: CompletedProcess = run(
             [
                 PritunlVpnData.cli_path,
