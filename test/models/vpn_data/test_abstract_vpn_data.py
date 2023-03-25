@@ -74,7 +74,7 @@ class TestAbstractVpnData:
 
         # Assert
         assert VpnType.PRITUNL == actual_vpn_type
-    
+
     def test_get_global_vpn_id(self):
         '''
         Test get_global_vpn_id method
@@ -82,7 +82,7 @@ class TestAbstractVpnData:
         # Arrange
         vpn_type_name: str = TestAbstractVpnData.sut.get_vpn_type().value
         expected_global_vpn_id: str = f'{vpn_type_name}_{TestAbstractVpnData.mock_vpn_id}'
-        
+
         # Act
         actual_global_vpn_id: str = TestAbstractVpnData.sut.get_global_vpn_id()
 
@@ -98,7 +98,7 @@ class TestAbstractVpnData:
         expected_json: dict = {
             'vpn_id': 'test_id',
             'vpn_type': 'PRITUNL',
-            'pin': '', 
+            'pin': '',
             'totp_url': '',
             'token': ''
         }
