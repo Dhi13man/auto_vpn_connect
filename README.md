@@ -18,7 +18,7 @@ A Python script that allows users to automatically connect to VPNs with minimal 
 
 1. Go to the [releases](https://github.com/Dhi13man/auto_vpn_connect/releases) page and download the latest release binary, or clone this repository.
 
-2. In the same directory as the script, or inside the root of the repository, create a file called `vpn_data.json` and fill it with the following information (replace the values with your own):
+2. In the same directory as the script, or inside the root of the repository, create (or edit) a file called `vpn_data.json` and fill it with the following information (replace the values with your own):
 
     ```json
     {
@@ -31,7 +31,7 @@ A Python script that allows users to automatically connect to VPNs with minimal 
             {
                 "vpn_id": "<vpn_id_1>",
                 "vpn_type": "PRITUNL",
-                "pin": "<vpn_pin_1>",
+                "pin": "<vpn_pin_1>"
             },
             {
                 "vpn_id": "<vpn_id_2>",
@@ -44,12 +44,12 @@ A Python script that allows users to automatically connect to VPNs with minimal 
                 "vpn_type": "PRITUNL", 
                 "pin": "<vpn_pin_3>",
                 "token": "<vpn_token>"
-            },
+            }
         ]
     }
     ```
 
-3. After ensuring that the `vpn_data.json` is proper, run the downloaded binary, or the script with `python3 -m .` from the root of the repository.
+3. After ensuring that the `vpn_data.json` is proper, run the downloaded binary, or the script with `python3 -m .` from the root of the repository along with the proper switches.
 
 ### User Switches
 
@@ -99,12 +99,12 @@ A Python script that allows users to automatically connect to VPNs with minimal 
 
 ```bash
 cd <path_to_script>
-./auto_vpn_connect --action c --vpn_data_path <path_to_folder>/vpn_data.json --verbose true
+./auto_vpn_connect --action c --path <path_to_folder>/vpn_data.json --verbose true
 ```
 
 ```bash
 cd <path_to_repository>
-python3 -m . --action w --vpn_data_path <path_to_folder>/vpn_data.json --verbose false
+python3 -m . --action w --path <path_to_folder>/vpn_data.json --verbose false
 ```
 
 ```bash
