@@ -76,6 +76,26 @@ class TestPritunlVpnData:
         # Assert
         assert VpnType.PRITUNL == actual_vpn_type
 
+    def test_get_pin(self):
+        '''
+        Test get_pin method
+        '''
+        # Act
+        actual_pin: str = TestPritunlVpnData.sut.get_pin()
+
+        # Assert
+        assert TestPritunlVpnData.mock_pin == actual_pin
+
+    def test_get_token(self):
+        '''
+        Test get_token method
+        '''
+        # Act
+        actual_token: str = TestPritunlVpnData.sut.get_token()
+
+        # Assert
+        assert TestPritunlVpnData.mock_token == actual_token
+
     def test_visit(self):
         '''
         Test visiting VPN type
