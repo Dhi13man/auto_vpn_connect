@@ -23,6 +23,7 @@ class PritunlVpnData(AbstractVpnData):
     '''
 
     cli_path: str = "/Applications/Pritunl.app/Contents/Resources/pritunl-client"
+    cli_path_key: str = "cli_path"
     _vpn_type: VpnType = VpnType.PRITUNL
     _pin_key: str = "pin"
     _token_key: str = "token"
