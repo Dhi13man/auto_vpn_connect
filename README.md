@@ -10,7 +10,7 @@
 [![Language](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 [!["Buy Me A Coffee"](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20an%20Ego%20boost&emoji=%F0%9F%98%B3&slug=dhi13man&button_colour=FF5F5F&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00****)](https://www.buymeacoffee.com/dhi13man)
 
-A Python script that allows users to automatically connect to VPNs with minimal effort. As of now, only [Pritunl VPNs](https://docs.pritunl.com/docs/command-line-interface) are supported.
+A Python script that allows users to automatically connect to VPNs with minimal effort. As of now, only [Pritunl VPN Client](https://docs.pritunl.com/docs/command-line-interface) are supported.
 
 ## Usage
 
@@ -130,7 +130,7 @@ cd <path_to_script>
 
 #### External Dependencies
 
-- [Pritunl VPN Client](https://docs.pritunl.com/docs/command-line-interface): Used for connecting, disconnecting to VPNs (only supported VPN type as of now)
+- [Pritunl VPN Client](https://docs.pritunl.com/docs/command-line-interface): Used for connecting, disconnecting to VPNs (only supported VPN Client type as of now)
 
 ## Build
 
