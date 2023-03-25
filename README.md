@@ -84,7 +84,7 @@ Further resources:
 
 | ![Add VPN in Pritunl Client UI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/add_pritunl_vpn_ui.png) | ![Add VPN in Pritunl Client CLI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/add_pritunl_vpn_cli.png) |
 |:--:|:--:|
-| Add VPN in Pritunl Client UI | Add VPN in Pritunl Client CLI |
+| Add VPN in Pritunl Client UI | Add VPN using Pritunl Client CLI |
 
 ### User Switches
 
