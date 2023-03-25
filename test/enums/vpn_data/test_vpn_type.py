@@ -6,6 +6,8 @@ from zope.interface import implementer
 
 from src.enums.vpn_data.vpn_type import VpnType, VpnTypeVisitor
 
+# pylint: disable=duplicate-code
+
 
 @implementer(VpnTypeVisitor)
 class _TestVpnTypeVisitor:

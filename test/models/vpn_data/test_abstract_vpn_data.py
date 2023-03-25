@@ -1,5 +1,5 @@
 '''
-Test AbstractVpnData class module
+Test Abstract VPN Data Model module
 '''
 
 import pytest
@@ -8,6 +8,8 @@ from zope.interface import implementer
 from src.enums.vpn_data.vpn_type import VpnType, VpnTypeVisitor
 from src.models.vpn_data.abstract_vpn_data import AbstractVpnData
 from src.models.vpn_data.pritunl_vpn_data import PritunlVpnData
+
+# pylint: disable=duplicate-code
 
 
 @implementer(VpnTypeVisitor)
@@ -73,6 +75,20 @@ class TestAbstractVpnData:
         # Assert
         assert VpnType.PRITUNL == actual_vpn_type
 
+    def test_get_global_vpn_id(self):
+        '''
+        Test get_global_vpn_id method
+        '''
+        # Arrange
+        vpn_type_name: str = TestAbstractVpnData.sut.get_vpn_type().value
+        expected_global_vpn_id: str = f'{vpn_type_name}_{TestAbstractVpnData.mock_vpn_id}'
+
+        # Act
+        actual_global_vpn_id: str = TestAbstractVpnData.sut.get_global_vpn_id()
+
+        # Assert
+        assert expected_global_vpn_id == actual_global_vpn_id
+
     def test_to_json(self):
         '''
         Test to_json method
@@ -80,10 +96,11 @@ class TestAbstractVpnData:
         # Act
         actual_json: dict = TestAbstractVpnData.sut.to_json()
         expected_json: dict = {
-            "vpn_id": "test_id",
-            "vpn_type": "PRITUNL",
-            "pin": "", "totp_url": "",
-            "token": ""
+            'vpn_id': 'test_id',
+            'vpn_type': 'PRITUNL',
+            'pin': '',
+            'totp_url': '',
+            'token': ''
         }
 
         # Assert
@@ -94,7 +111,7 @@ class TestAbstractVpnData:
         Test from_json method
         '''
         # Arrange
-        json_str: dict = {"vpn_id": "test_id", "vpn_type": ""}
+        json_str: dict = {'vpn_id': 'test_id', 'vpn_type': ''}
 
         # Act
         with pytest.raises(TypeError) as excinfo:
@@ -102,5 +119,5 @@ class TestAbstractVpnData:
 
             # Assert
             assert excinfo.match(
-                "Can't instantiate abstract class AbstractVpnData with abstract methods"
+                'Can\'t instantiate abstract class AbstractVpnData with abstract methods'
             )
