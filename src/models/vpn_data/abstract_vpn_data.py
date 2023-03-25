@@ -70,14 +70,14 @@ class AbstractVpnData(ABC):
         '''
         return visitor.visit_none()
 
-    def get_global_id(self) -> str:
+    def get_global_vpn_id(self) -> str:
         '''
         Get the global ID of the VPN.
 
         Returns:
             str: Global ID of the VPN. This is the ID of the VPN prefixed with the type of the VPN.
         '''
-        return f'{self.get_vpn_type()}_{self.get_vpn_id()}'
+        return f'{self.get_vpn_type().name}_{self.get_vpn_id()}'
 
     def to_json(self) -> dict:
         '''
