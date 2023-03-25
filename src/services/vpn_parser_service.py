@@ -79,7 +79,6 @@ class VpnDataParserService:
         Args:
             vpn_config (dict): Global config map to inject from the JSON
         '''
-        print('Injecting global configs...', vpn_config)
         # Check if Pritunl config exists
         if vpn_config.get(VpnType.PRITUNL.value):
             pritunl_config: dict = vpn_config[VpnType.PRITUNL.value]
@@ -87,4 +86,4 @@ class VpnDataParserService:
                 PritunlVpnData.cli_path_key,
                 PritunlVpnData.cli_path
             )
-            print(f'Pritunl CLI path: {PritunlVpnData.cli_path}')
+            print(f'Pritunl CLI path updated to: {PritunlVpnData.cli_path}')
