@@ -130,7 +130,3 @@ dmypy.json
 
 # Mac OS
 .DS_Store
-
-# Project level things
-auto_vpn_connect_private.py
-vpn_data.json

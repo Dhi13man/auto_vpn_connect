@@ -1,0 +1,26 @@
+{
+    "config": {
+        "PRITUNL": {
+            "cli_path": "/Applications/Pritunl.app/Contents/Resources/pritunl-client"
+        }
+    },
+    "vpn_list": [
+        {
+            "vpn_id": "<vpn_id_1>",
+            "vpn_type": "PRITUNL",
+            "pin": "<vpn_pin_1>"
+        },
+        {
+            "vpn_id": "<vpn_id_2>",
+            "vpn_type": "PRITUNL",
+            "pin": "<vpn_pin_2>",
+            "totp_url": "<totp_url>"
+        },
+        {
+            "vpn_id": "<vpn_id_3>",
+            "vpn_type": "PRITUNL", 
+            "pin": "<vpn_pin_3>",
+            "token": "<vpn_token>"
+        }
+    ]
+}
