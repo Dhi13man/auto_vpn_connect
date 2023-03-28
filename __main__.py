@@ -4,6 +4,7 @@ This is the entry point for the VPN Switcher application.
 
 from threading import Thread
 import argparse
+from sys import exit as end
 
 from src.models.user_switches import UserSwitches
 from src.models.vpn_data import abstract_vpn_data
@@ -37,8 +38,10 @@ def get_user_switches() -> UserSwitches:
         default=False,
         required=False
     )
-    parser.print_help()
     args: argparse.Namespace = parser.parse_args()
+    if args.action is None and args.path is None and args.verbose is False:
+        parser.print_help()
+        end(0)
     return UserSwitches(
         args.action if args.action else input(f'{PROMPT}: ').lower(),
         args.path if args.path else DEFAULT_VPN_DATA_PATH,
