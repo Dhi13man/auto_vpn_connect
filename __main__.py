@@ -5,6 +5,7 @@ This is the entry point for the VPN Switcher application.
 from threading import Thread
 import argparse
 from sys import exit as end
+from time import sleep
 
 from src.models.user_switches import UserSwitches
 from src.models.vpn_data import abstract_vpn_data
@@ -79,3 +80,5 @@ if __name__ == '__main__':
         # If not in watch mode, exit
         if user_switches.action != 'w':
             break
+
+        sleep(5)
