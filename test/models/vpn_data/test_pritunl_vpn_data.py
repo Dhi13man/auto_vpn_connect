@@ -4,9 +4,9 @@ Test Pritunl VPN Data Model module
 
 from zope.interface import implementer
 
-from src.enums.vpn_data.vpn_type import VpnType, VpnTypeVisitor
-from src.models.vpn_data.pritunl_vpn_data import PritunlVpnData
-# pylint: disable=duplicate-code
+from src.enums.vpn_type import VpnType, VpnTypeVisitor
+from src.models.vpn_model.pritunl_vpn_model import PritunlVpnModel
+from src.models.vpn_config.pritunl_vpn_config import PritunlVpnConfig
 
 
 @implementer(VpnTypeVisitor)
@@ -49,8 +49,10 @@ class TestPritunlVpnData:
         'token': mock_token,
         'totp_url': mock_totp_url
     }
-    sut: PritunlVpnData = PritunlVpnData(
+    mock_config: PritunlVpnConfig = PritunlVpnConfig()
+    sut: PritunlVpnModel = PritunlVpnModel(
         mock_vpn_id,
+        config=mock_config,
         pin=mock_pin,
         token=mock_token,
         totp_url=mock_totp_url
@@ -123,9 +125,14 @@ class TestPritunlVpnData:
         '''
         Test from_json method
         '''
+        # Arrange
+        mock_config: PritunlVpnConfig = PritunlVpnConfig()
+        
         # Act
-        actual_vpn_data: PritunlVpnData = PritunlVpnData.from_json(
-            TestPritunlVpnData.mock_json)
+        actual_vpn_data: PritunlVpnModel = PritunlVpnModel.from_json_with_config(
+            TestPritunlVpnData.mock_json,
+            mock_config
+        )
 
         # Assert
         assert TestPritunlVpnData.mock_vpn_id == actual_vpn_data.get_vpn_id()

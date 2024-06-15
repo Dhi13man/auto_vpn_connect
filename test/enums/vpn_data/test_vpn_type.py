@@ -4,7 +4,7 @@ Test VPN type enum module
 
 from zope.interface import implementer
 
-from src.enums.vpn_data.vpn_type import VpnType, VpnTypeVisitor
+from src.enums.vpn_type import VpnType, VpnTypeVisitor
 
 # pylint: disable=duplicate-code
 

@@ -24,7 +24,14 @@ A Python script that allows users to automatically connect to VPNs with minimal 
     {
         "config": {
             "PRITUNL": {
+                "vpn_type": "PRITUNL",
                 "cli_path": "/Applications/Pritunl.app/Contents/Resources/pritunl-client"
+            },
+            "GLOBAL_PROTECT": {
+                "vpn_type": "GLOBAL_PROTECT",
+                "service_load_command": "launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist",
+                "service_unload_command": "launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist",
+                "process_kill_command": "pkill -9 -f GlobalProtect"
             }
         },
         "vpn_list": [
@@ -44,6 +51,10 @@ A Python script that allows users to automatically connect to VPNs with minimal 
                 "vpn_type": "PRITUNL", 
                 "pin": "<vpn_pin_3>",
                 "token": "<vpn_token>"
+            },
+            {
+                "vpn_id": "GlobalProtect",
+                "vpn_type": "GLOBAL_PROTECT"
             }
         ]
     }

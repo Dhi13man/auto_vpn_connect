@@ -2,12 +2,14 @@
 Test Abstract VPN Data Model module
 '''
 
-import pytest
+from pytest import raises
 from zope.interface import implementer
 
-from src.enums.vpn_data.vpn_type import VpnType, VpnTypeVisitor
-from src.models.vpn_data.abstract_vpn_data import AbstractVpnData
-from src.models.vpn_data.pritunl_vpn_data import PritunlVpnData
+from src.enums.vpn_type import VpnType, VpnTypeVisitor
+from src.models.vpn_model.abstract_vpn_model import AbstractVpnModel
+from src.models.vpn_model.pritunl_vpn_model import PritunlVpnModel
+from src.models.vpn_config.abstract_vpn_config import AbstractVpnConfig
+from src.models.vpn_config.pritunl_vpn_config import PritunlVpnConfig
 
 # pylint: disable=duplicate-code
 
@@ -40,7 +42,8 @@ class TestAbstractVpnData:
     Test AbstractVpnData class
     '''
     mock_vpn_id: str = 'test_id'
-    sut: AbstractVpnData = PritunlVpnData(mock_vpn_id)
+    config: AbstractVpnConfig = PritunlVpnConfig()
+    sut: AbstractVpnModel = PritunlVpnModel(mock_vpn_id, config)
 
     def test_get_vpn_id(self):
         '''
@@ -114,8 +117,8 @@ class TestAbstractVpnData:
         json_str: dict = {'vpn_id': 'test_id', 'vpn_type': ''}
 
         # Act
-        with pytest.raises(TypeError) as excinfo:
-            AbstractVpnData.from_json(json_str)
+        with raises(TypeError) as excinfo:
+            AbstractVpnModel.from_json_with_config(json_str, {})
 
             # Assert
             assert excinfo.match(

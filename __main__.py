@@ -8,7 +8,7 @@ from sys import exit as end
 from time import sleep
 
 from src.models.user_switches import UserSwitches
-from src.models.vpn_data import abstract_vpn_data
+from vpn_model import abstract_vpn_model
 from src.services.vpn_parser_service import VpnDataParserService
 
 PROMPT: str = 'Run in Connect (c), Disconnect (d), or be in Always-Connected mode (w)'
@@ -57,7 +57,7 @@ if __name__ == '__main__':
         raise ValueError(f'Invalid action switch. {PROMPT}!')
 
     # List all VPNs
-    vpn_data_list: list[abstract_vpn_data.AbstractVpnData] = []
+    vpn_data_list: list[abstract_vpn_model.AbstractVpnModel] = []
     with open(user_switches.vpn_data_json_path, 'r', encoding='utf-8') as f:
         vpn_parser_service: VpnDataParserService = VpnDataParserService()
         vpn_data_list = vpn_parser_service.parse_vpn_data(f.read())
