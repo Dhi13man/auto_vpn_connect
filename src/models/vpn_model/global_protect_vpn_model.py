@@ -92,16 +92,16 @@ class GlobalProtectVpnModel(AbstractVpnModel):
 
     def to_json(self) -> dict:
         return {
-            AbstractVpnModel.vpn_id_key: self.get_vpn_id(),
-            AbstractVpnModel.vpn_type_key: self.get_vpn_type().value,
+            GlobalProtectVpnModel.vpn_id_key: self.get_vpn_id(),
+            GlobalProtectVpnModel.vpn_type_key: self.get_vpn_type().value,
         }
 
     @staticmethod
     def from_json_with_config(json: dict, config) -> 'GlobalProtectVpnModel':
-        vpn_type: VpnType = VpnType(json[AbstractVpnModel.vpn_type_key])
+        vpn_type: VpnType = VpnType(json.get(GlobalProtectVpnModel.vpn_type_key))
         if vpn_type != GlobalProtectVpnModel._vpn_type:
-            raise ValueError(f'Invalid VPN type {vpn_type} for GlobalProtectVpnData')
+            raise ValueError(f'Invalid VPN type {vpn_type}')
         return GlobalProtectVpnModel(
-            vpn_id=json[GlobalProtectVpnModel.vpn_id_key],
+            vpn_id=json.get(GlobalProtectVpnModel.vpn_id_key),
             config=config
         )

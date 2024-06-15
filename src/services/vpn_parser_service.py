@@ -88,7 +88,7 @@ class VpnDataParserService:
         Returns:
             AbstractVpnData: VPN data object
         """
-        vpn_type: VpnType = VpnType(vpn_json[AbstractVpnModel.vpn_type_key])
-        config: dict = vpn_config_json.get(vpn_type)
+        vpn_type: VpnType = VpnType(vpn_json.get(AbstractVpnModel.vpn_type_key))
+        config: dict = vpn_config_json.get(vpn_type.value)
         parsing_visitor: _VpnParsingVisitor = _VpnParsingVisitor(vpn_json, config)
         return vpn_type.visit(parsing_visitor)

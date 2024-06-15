@@ -13,7 +13,6 @@ class GlobalProtectVpnConfig(AbstractVpnConfig):
         vpn_id (str): ID of the VPN
     '''
 
-    vpn_type_key: str = 'vpn_type'
     _vpn_type: VpnType = VpnType.GLOBAL_PROTECT
     service_load_command_key: str = "service_load_command"
     servkce_unload_command_key: str = "service_unload_command"
@@ -62,7 +61,7 @@ class GlobalProtectVpnConfig(AbstractVpnConfig):
             str: JSON string of the VPN data
         '''
         return {
-            AbstractVpnConfig.vpn_type_key: self.get_vpn_type().value,
+            GlobalProtectVpnConfig.vpn_type_key: self.get_vpn_type().value,
             GlobalProtectVpnConfig.service_load_command_key: self.service_load_command,
             GlobalProtectVpnConfig.servkce_unload_command_key: self.service_unload_command,
             GlobalProtectVpnConfig.process_kill_command_key: self.process_kill_command
@@ -76,11 +75,13 @@ class GlobalProtectVpnConfig(AbstractVpnConfig):
         Args:
             json (dict): JSON string of the VPN data
         '''
-        vpn_type: VpnType = VpnType(json[GlobalProtectVpnConfig.vpn_type_key])
+        vpn_type: VpnType = VpnType(
+            json.get(GlobalProtectVpnConfig.vpn_type_key, VpnType.GLOBAL_PROTECT)
+        )
         if vpn_type != GlobalProtectVpnConfig._vpn_type:
-            raise ValueError(f'Invalid VPN type {vpn_type} for AbstractVpnConfig')
+            raise ValueError(f'Invalid VPN type {vpn_type}')
         return GlobalProtectVpnConfig(
-            service_load_command=json[GlobalProtectVpnConfig.service_load_command_key],
-            service_unload_command=json[GlobalProtectVpnConfig.servkce_unload_command_key],
-            process_kill_command=json[GlobalProtectVpnConfig.process_kill_command_key]
+            service_load_command=json.get(GlobalProtectVpnConfig.service_load_command_key),
+            service_unload_command=json.get(GlobalProtectVpnConfig.servkce_unload_command_key),
+            process_kill_command=json.get(GlobalProtectVpnConfig.process_kill_command_key)
         )

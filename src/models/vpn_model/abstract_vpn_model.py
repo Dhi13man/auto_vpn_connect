@@ -101,7 +101,7 @@ class AbstractVpnModel(ABC):
         Args:
             json (dict): JSON string of the VPN data
         '''
-        vpn_type: VpnType = VpnType(json[AbstractVpnModel.vpn_type_key])
+        vpn_type: VpnType = VpnType(json.get(AbstractVpnModel.vpn_type_key))
         if vpn_type != AbstractVpnModel._vpn_type:
-            raise ValueError(f'Invalid VPN type {vpn_type} for AbstractVpnData')
-        return AbstractVpnModel(vpn_id=json[AbstractVpnModel.vpn_id_key], config=config)
+            raise ValueError(f'Invalid VPN type {vpn_type}')
+        return AbstractVpnModel(vpn_id=json.get(AbstractVpnModel.vpn_id_key), config=config)

@@ -13,7 +13,6 @@ class PritunlVpnConfig(AbstractVpnConfig):
         vpn_id (str): ID of the VPN
     '''
 
-    vpn_type_key: str = 'vpn_type'
     _vpn_type: VpnType = VpnType.PRITUNL
     cli_path_key: str = "cli_path"
     default_cli_path: str = "/Applications/Pritunl.app/Contents/Resources/pritunl-client"
@@ -47,7 +46,7 @@ class PritunlVpnConfig(AbstractVpnConfig):
             str: JSON string of the VPN data
         '''
         return {
-            AbstractVpnConfig.vpn_type_key: self.get_vpn_type().value,
+            PritunlVpnConfig.vpn_type_key: self.get_vpn_type().value,
             PritunlVpnConfig.cli_path_key: self.cli_path
         }
 
@@ -59,7 +58,7 @@ class PritunlVpnConfig(AbstractVpnConfig):
         Args:
             json (dict): JSON string of the VPN data
         '''
-        vpn_type: VpnType = VpnType(json[PritunlVpnConfig.vpn_type_key])
+        vpn_type: VpnType = VpnType(json.get(PritunlVpnConfig.vpn_type_key, VpnType.PRITUNL))
         if vpn_type != PritunlVpnConfig._vpn_type:
-            raise ValueError(f'Invalid VPN type {vpn_type} for AbstractVpnConfig')
-        return PritunlVpnConfig(cli_path=json[PritunlVpnConfig.cli_path_key])
+            raise ValueError(f'Invalid VPN type {vpn_type}')
+        return PritunlVpnConfig(cli_path=json.get(PritunlVpnConfig.cli_path_key))
