@@ -8,7 +8,7 @@ from sys import exit as end
 from time import sleep
 
 from src.models.user_switches import UserSwitches
-from vpn_model import abstract_vpn_model
+from src.models.vpn_model import abstract_vpn_model
 from src.services.vpn_parser_service import VpnDataParserService
 
 PROMPT: str = 'Run in Connect (c), Disconnect (d), or be in Always-Connected mode (w)'
