@@ -10,7 +10,10 @@
 [![Language](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 [!["Buy Me A Coffee"](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20an%20Ego%20boost&emoji=%F0%9F%98%B3&slug=dhi13man&button_colour=FF5F5F&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00****)](https://www.buymeacoffee.com/dhi13man)
 
-A Python script that allows users to automatically connect to VPNs with minimal effort. As of now, only [Pritunl VPN Client](https://docs.pritunl.com/docs/command-line-interface) is supported.
+This is a Python script that allows users to automatically connect to VPNs with minimal effort. VPNs supported as of now:
+
+1. [Pritunl VPN Client](https://docs.pritunl.com/docs/command-line-interface)
+2. [Palo Alto Global Protect](https://docs.paloaltonetworks.com/globalprotect)
 
 ## Usage
 
@@ -24,7 +27,14 @@ A Python script that allows users to automatically connect to VPNs with minimal 
     {
         "config": {
             "PRITUNL": {
+                "vpn_type": "PRITUNL",
                 "cli_path": "/Applications/Pritunl.app/Contents/Resources/pritunl-client"
+            },
+            "GLOBAL_PROTECT": {
+                "vpn_type": "GLOBAL_PROTECT",
+                "service_load_command": "launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist",
+                "service_unload_command": "launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist",
+                "process_kill_command": "pkill -9 -f GlobalProtect"
             }
         },
         "vpn_list": [
@@ -44,6 +54,10 @@ A Python script that allows users to automatically connect to VPNs with minimal 
                 "vpn_type": "PRITUNL", 
                 "pin": "<vpn_pin_3>",
                 "token": "<vpn_token>"
+            },
+            {
+                "vpn_id": "GlobalProtect",
+                "vpn_type": "GLOBAL_PROTECT"
             }
         ]
     }
@@ -161,7 +175,6 @@ cd <path_to_script>
 
 - [Python 3.10+](https://www.python.org/downloads/): Used for developing the script
 - [pyotp](https://pypi.org/project/pyotp/): Used for generating OTPs
-- [zope.interface](https://pypi.org/project/zope.interface/): Used for type hinting
 
 #### External Dependencies
 
