@@ -5,6 +5,7 @@
 1. Integrated one-step [Palo Alto Global Protect](https://docs.paloaltonetworks.com/globalprotect) VPN connection/disconnection.
 2. Decoupled VPN Config and VPN Data Models for future flexibility.
 3. Removed unnecessary Zope Interfaces dependency as it does not seem worth the maintenance effort.
+4. Upgraded `pyinstaller` dependency to leave vulnerable version.
 
 ## [0.0.1] - 25th March 2023
 
