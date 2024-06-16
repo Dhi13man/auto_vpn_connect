@@ -27,6 +27,7 @@ class PritunlVpnModel(AbstractVpnModel):
     _token_key: str = "token"
     _totp_url_key: str = "totp_url"
 
+    # pylint: disable=R0913
     def __init__(
         self,
         vpn_id: str,
