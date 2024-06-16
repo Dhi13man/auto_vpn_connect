@@ -14,6 +14,7 @@ This is a Python script that allows users to automatically connect to VPNs with 
 
 1. [Pritunl VPN Client](https://docs.pritunl.com/docs/command-line-interface)
 2. [Palo Alto Global Protect](https://docs.paloaltonetworks.com/globalprotect)
+    1. For a more lightweight script that only solves the Global Protect VPN use case, check out my [global_protect_controller](https://github.com/Dhi13man/global_protect_controller) project.
 
 ## Usage
 
@@ -99,6 +100,10 @@ Further resources:
 | ![Add VPN in Pritunl Client UI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/add_pritunl_vpn_ui.png) | ![Add VPN in Pritunl Client CLI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/add_pritunl_vpn_cli.png) |
 |:--:|:--:|
 | Add VPN in Pritunl Client UI | Add VPN using Pritunl Client CLI |
+
+#### Global Protect VPN Client
+
+Global Protect VPN does not have the hassle of managing multiple connections. You only have to put in a config with a dummy VPN ID as shown in the example above and then sign in with SSO whenever you use the CLI to connect to it. Disconnecting from Global Protect will require no additional input.
 
 ### User Switches
 
