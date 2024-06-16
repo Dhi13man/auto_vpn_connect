@@ -7,7 +7,7 @@ from json import dumps
 from src.services.vpn_parser_service import VpnDataParserService
 from src.models.vpn_model.abstract_vpn_model import AbstractVpnModel
 from src.models.vpn_model.pritunl_vpn_model import PritunlVpnModel
-
+from src.models.vpn_config.pritunl_vpn_config import PritunlVpnConfig
 
 class TestVpnParserService:
     """
@@ -39,7 +39,7 @@ class TestVpnParserService:
                 }
             ]
         }
-        mock_vpn_config: dict = {}
+        mock_vpn_config: dict = PritunlVpnConfig()
         expected_vpn_data: list[AbstractVpnModel] = [
             PritunlVpnModel(
                 mock_vpn_id,
@@ -84,12 +84,12 @@ class TestVpnParserService:
         """
         # Arrange
         mock_cli_path: str = "test_cli_path"
-        mock_vpn_config: dict = {
+        mock_vpn_config_json: dict = {
             "PRITUNL": {
                 "cli_path": mock_cli_path,
             }
         }
-        mock_vpn_data: dict = {
+        mock_vpn_data_json: dict = {
             "vpn_id": "<vpn_id_1>",
             "vpn_type": "PRITUNL",
             "pin": "<vpn_pin_1>",
@@ -98,8 +98,8 @@ class TestVpnParserService:
         # Act
         vpn: PritunlVpnModel = (
             TestVpnParserService.sut.generate_vpn_from_config_and_data(
-                mock_vpn_config,
-                mock_vpn_data,
+                mock_vpn_config_json,
+                mock_vpn_data_json,
             )
         )
 
