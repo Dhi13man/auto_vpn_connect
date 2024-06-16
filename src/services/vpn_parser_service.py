@@ -24,7 +24,7 @@ class _VpnParsingVisitor(VpnTypeVisitor):
     def __init__(self, data_json: dict, config_json: dict):
         super().__init__()
         self.data_json: dict = data_json
-        self.config_json: dict = config_json
+        self.config_json: dict = config_json if config_json else {}
 
     def visit_none(self) -> AbstractVpnModel:
         """Visit VPN type not specified"""
