@@ -128,7 +128,7 @@ class TestPritunlVpnModel:
         '''
         # Arrange
         mock_config: PritunlVpnConfig = PritunlVpnConfig()
-        
+
         # Act
         actual_vpn_data: PritunlVpnModel = PritunlVpnModel.from_json_with_config(
             TestPritunlVpnModel.mock_json,
