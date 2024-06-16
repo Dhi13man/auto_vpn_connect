@@ -4,8 +4,10 @@ AbstractVpnData class.
 '''
 
 from subprocess import run, CompletedProcess
+from time import sleep
 
-from vpn_model.abstract_vpn_model import AbstractVpnModel
+from src.models.vpn_config.global_protect_vpn_config import GlobalProtectVpnConfig
+from src.models.vpn_model.abstract_vpn_model import AbstractVpnModel
 from src.enums.vpn_type import VpnType, VpnTypeVisitor, T
 
 
@@ -23,9 +25,11 @@ class GlobalProtectVpnModel(AbstractVpnModel):
 
     _vpn_type: VpnType = VpnType.GLOBAL_PROTECT
 
-    def __init__(self, vpn_id: str, config) -> None:
+    def __init__(self, vpn_id: str, config: GlobalProtectVpnConfig) -> None:
         super().__init__(vpn_id=vpn_id, config=config)
-        self.cli_path: str = config.cli_path
+        self.service_load_command: str = config.service_load_command
+        self.service_unload_command: str = config.service_unload_command
+        self.process_kill_command: str = config.process_kill_command
 
     def get_vpn_type(self) -> VpnType:
         '''
@@ -45,15 +49,7 @@ class GlobalProtectVpnModel(AbstractVpnModel):
         '''
         if verbose:
             print(f'Connecting to {self.get_vpn_id()}...')
-        process: CompletedProcess = run(
-            [
-                self.cli_path,
-                'start',
-                self.get_vpn_id(),
-                '-p'
-            ],
-            check=False,
-        )
+        process: CompletedProcess = run(self.service_load_command.split(), check=False)
         if verbose:
             print('Connect process completed!')
             print(f'Result: {process.stdout}; Error: {process.stderr}')
@@ -68,18 +64,18 @@ class GlobalProtectVpnModel(AbstractVpnModel):
         '''
         if verbose:
             print(f'Disconnecting from {self.get_vpn_id()}')
-        process: CompletedProcess = run(
-            [
-                self.cli_path,
-                'stop',
-                self.get_vpn_id()
-            ],
-            check=False,
-        )
+        unloading_process: CompletedProcess = run(self.service_unload_command.split(), check=False)
+        sleep(1)
+        kill_process: CompletedProcess = run(self.process_kill_command.split(), check=False)
         if verbose:
             print('Disconnect process completed!')
-            print(f'Result: {process.stdout}; Error: {process.stderr}')
-        return process
+            print(
+                f'Unloading Result: {unloading_process.stdout}; Error: {unloading_process.stderr}'
+            )
+            print(
+                f'Kill Result: {kill_process.stdout}; Error: {kill_process.stderr}'
+            )
+        return kill_process
 
     def visit(self, visitor: 'VpnTypeVisitor[T]') -> T:
         '''
@@ -92,7 +88,7 @@ class GlobalProtectVpnModel(AbstractVpnModel):
 
     def to_json(self) -> dict:
         return {
-            GlobalProtectVpnModel.vpn_id_key: self.get_vpn_id(),
+            GlobalProtectVpnModel._vpn_id_key: self.get_vpn_id(),
             GlobalProtectVpnModel.vpn_type_key: self.get_vpn_type().value,
         }
 
@@ -102,6 +98,6 @@ class GlobalProtectVpnModel(AbstractVpnModel):
         if vpn_type != GlobalProtectVpnModel._vpn_type:
             raise ValueError(f'Invalid VPN type {vpn_type}')
         return GlobalProtectVpnModel(
-            vpn_id=json.get(GlobalProtectVpnModel.vpn_id_key),
+            vpn_id=json.get(GlobalProtectVpnModel._vpn_id_key),
             config=config
         )

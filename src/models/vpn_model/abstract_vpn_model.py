@@ -17,7 +17,7 @@ class AbstractVpnModel(ABC):
         vpn_id (str): ID of the VPN
     '''
 
-    vpn_id_key: str = 'vpn_id'
+    _vpn_id_key: str = 'vpn_id'
     vpn_type_key: str = 'vpn_type'
     _vpn_type: VpnType = VpnType.NONE
 
@@ -89,7 +89,7 @@ class AbstractVpnModel(ABC):
             str: JSON string of the VPN data
         '''
         return {
-            AbstractVpnModel.vpn_id_key: self.get_vpn_id(), 
+            AbstractVpnModel._vpn_id_key: self.get_vpn_id(),
             AbstractVpnModel.vpn_type_key: self.get_vpn_type().value
         }
 
@@ -104,4 +104,4 @@ class AbstractVpnModel(ABC):
         vpn_type: VpnType = VpnType(json.get(AbstractVpnModel.vpn_type_key))
         if vpn_type != AbstractVpnModel._vpn_type:
             raise ValueError(f'Invalid VPN type {vpn_type}')
-        return AbstractVpnModel(vpn_id=json.get(AbstractVpnModel.vpn_id_key), config=config)
+        return AbstractVpnModel(vpn_id=json.get(AbstractVpnModel._vpn_id_key), config=config)

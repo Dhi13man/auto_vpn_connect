@@ -2,18 +2,19 @@
 Test Pritunl VPN Data Model module
 '''
 
-from zope.interface import implementer
 
 from src.enums.vpn_type import VpnType, VpnTypeVisitor
 from src.models.vpn_model.pritunl_vpn_model import PritunlVpnModel
 from src.models.vpn_config.pritunl_vpn_config import PritunlVpnConfig
 
-
-@implementer(VpnTypeVisitor)
-class _TestVpnTypeVisitor:
+class _TestVpnTypeVisitor(VpnTypeVisitor):
     '''
     Visitor that returns the VPN type itself
     '''
+
+    def visit_none(self) -> VpnType:
+        '''Visit VPN type not specified'''
+        return VpnType.NONE
 
     def visit_pritunl(self) -> VpnType:
         '''Visit Pritunl VPN type'''
@@ -27,12 +28,12 @@ class _TestVpnTypeVisitor:
         '''Visit OpenVPN VPN type'''
         return VpnType.OPEN_VPN
 
-    def visit_none(self) -> VpnType:
-        '''Visit VPN type not specified'''
-        return VpnType.NONE
+    def visit_global_protect(self) -> VpnType:
+        '''Visit Global Protect VPN type'''
+        return VpnType.GLOBAL_PROTECT
 
 
-class TestPritunlVpnData:
+class TestPritunlVpnModel:
     '''
     Test PritunlVpnData class
     '''
@@ -63,17 +64,17 @@ class TestPritunlVpnData:
         Test get_vpn_id method
         '''
         # Act
-        actual_vpn_id: str = TestPritunlVpnData.sut.get_vpn_id()
+        actual_vpn_id: str = TestPritunlVpnModel.sut.get_vpn_id()
 
         # Assert
-        assert TestPritunlVpnData.mock_vpn_id == actual_vpn_id
+        assert TestPritunlVpnModel.mock_vpn_id == actual_vpn_id
 
     def test_get_vpn_type(self):
         '''
         Test get_vpn_type method
         '''
         # Act
-        actual_vpn_type: VpnType = TestPritunlVpnData.sut.get_vpn_type()
+        actual_vpn_type: VpnType = TestPritunlVpnModel.sut.get_vpn_type()
 
         # Assert
         assert VpnType.PRITUNL == actual_vpn_type
@@ -83,20 +84,20 @@ class TestPritunlVpnData:
         Test get_pin method
         '''
         # Act
-        actual_pin: str = TestPritunlVpnData.sut.get_pin()
+        actual_pin: str = TestPritunlVpnModel.sut.get_pin()
 
         # Assert
-        assert TestPritunlVpnData.mock_pin == actual_pin
+        assert TestPritunlVpnModel.mock_pin == actual_pin
 
     def test_get_token(self):
         '''
         Test get_token method
         '''
         # Act
-        actual_token: str = TestPritunlVpnData.sut.get_token()
+        actual_token: str = TestPritunlVpnModel.sut.get_token()
 
         # Assert
-        assert TestPritunlVpnData.mock_token == actual_token
+        assert TestPritunlVpnModel.mock_token == actual_token
 
     def test_visit(self):
         '''
@@ -106,7 +107,7 @@ class TestPritunlVpnData:
         test_visitor: _TestVpnTypeVisitor = _TestVpnTypeVisitor()
 
         # Act
-        actual_vpn_type: VpnType = TestPritunlVpnData.sut.visit(test_visitor)
+        actual_vpn_type: VpnType = TestPritunlVpnModel.sut.visit(test_visitor)
 
         # Assert
         assert VpnType.PRITUNL == actual_vpn_type
@@ -116,10 +117,10 @@ class TestPritunlVpnData:
         Test to_json method
         '''
         # Act
-        actual_json: dict = TestPritunlVpnData.sut.to_json()
+        actual_json: dict = TestPritunlVpnModel.sut.to_json()
 
         # Assert
-        assert TestPritunlVpnData.mock_json == actual_json
+        assert TestPritunlVpnModel.mock_json == actual_json
 
     def test_from_json(self):
         '''
@@ -130,12 +131,12 @@ class TestPritunlVpnData:
         
         # Act
         actual_vpn_data: PritunlVpnModel = PritunlVpnModel.from_json_with_config(
-            TestPritunlVpnData.mock_json,
+            TestPritunlVpnModel.mock_json,
             mock_config
         )
 
         # Assert
-        assert TestPritunlVpnData.mock_vpn_id == actual_vpn_data.get_vpn_id()
-        assert TestPritunlVpnData.mock_vpn_type == actual_vpn_data.get_vpn_type().value
-        assert TestPritunlVpnData.mock_pin == actual_vpn_data.get_pin()
-        assert TestPritunlVpnData.mock_token == actual_vpn_data.get_token()
+        assert TestPritunlVpnModel.mock_vpn_id == actual_vpn_data.get_vpn_id()
+        assert TestPritunlVpnModel.mock_vpn_type == actual_vpn_data.get_vpn_type().value
+        assert TestPritunlVpnModel.mock_pin == actual_vpn_data.get_pin()
+        assert TestPritunlVpnModel.mock_token == actual_vpn_data.get_token()

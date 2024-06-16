@@ -136,7 +136,7 @@ class PritunlVpnModel(AbstractVpnModel):
 
     def to_json(self) -> dict:
         return {
-            PritunlVpnModel.vpn_id_key: self.get_vpn_id(),
+            PritunlVpnModel._vpn_id_key: self.get_vpn_id(),
             PritunlVpnModel.vpn_type_key: self.get_vpn_type().value,
             PritunlVpnModel._pin_key: self.get_pin(),
             PritunlVpnModel._totp_url_key: self.totp_url,
@@ -149,7 +149,7 @@ class PritunlVpnModel(AbstractVpnModel):
         if vpn_type != PritunlVpnModel._vpn_type:
             raise ValueError(f"Invalid VPN type {vpn_type}")
         return PritunlVpnModel(
-            vpn_id=json.get(PritunlVpnModel.vpn_id_key),
+            vpn_id=json.get(PritunlVpnModel._vpn_id_key),
             config=config,
             pin=json.get(PritunlVpnModel._pin_key, ""),
             totp_url=json.get(PritunlVpnModel._totp_url_key, ""),

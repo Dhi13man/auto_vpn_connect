@@ -30,7 +30,7 @@
             "token": "<vpn_token>"
         },
         {
-            "vpn_id": "GlobalProtect",
+            "vpn_id": "GP1",
             "vpn_type": "GLOBAL_PROTECT"
         }
     ]

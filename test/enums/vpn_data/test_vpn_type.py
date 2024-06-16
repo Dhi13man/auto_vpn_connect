@@ -2,18 +2,19 @@
 Test VPN type enum module
 '''
 
-from zope.interface import implementer
-
 from src.enums.vpn_type import VpnType, VpnTypeVisitor
 
 # pylint: disable=duplicate-code
 
 
-@implementer(VpnTypeVisitor)
-class _TestVpnTypeVisitor:
+class _TestVpnTypeVisitor(VpnTypeVisitor):
     '''
     Visitor that returns the VPN type itself
     '''
+
+    def visit_none(self) -> VpnType:
+        '''Visit VPN type not specified'''
+        return VpnType.NONE
 
     def visit_pritunl(self) -> VpnType:
         '''Visit Pritunl VPN type'''
@@ -27,9 +28,9 @@ class _TestVpnTypeVisitor:
         '''Visit OpenVPN VPN type'''
         return VpnType.OPEN_VPN
 
-    def visit_none(self) -> VpnType:
-        '''Visit VPN type not specified'''
-        return VpnType.NONE
+    def visit_global_protect(self) -> VpnType:
+        '''Visit Global Protect VPN type'''
+        return VpnType.GLOBAL_PROTECT
 
 
 class TestVpnType:

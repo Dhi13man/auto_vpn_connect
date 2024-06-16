@@ -12,7 +12,7 @@ class AbstractVpnConfig(ABC):
     Abstract class for VPN data.
     '''
 
-    vpn_type_key: str = 'vpn_type'
+    _vpn_type_key: str = 'vpn_type'
     _vpn_type: VpnType = VpnType.NONE
 
     def get_vpn_type(self) -> VpnType:
@@ -40,7 +40,7 @@ class AbstractVpnConfig(ABC):
         Returns:
             str: JSON string of the VPN data
         '''
-        return {AbstractVpnConfig.vpn_type_key: self.get_vpn_type().value}
+        return {AbstractVpnConfig._vpn_type_key: self.get_vpn_type().value}
 
     @staticmethod
     def from_json(json: dict) -> 'AbstractVpnConfig':
@@ -50,7 +50,7 @@ class AbstractVpnConfig(ABC):
         Args:
             json (dict): JSON string of the VPN data
         '''
-        vpn_type: VpnType = VpnType(json.get(AbstractVpnConfig.vpn_type_key, VpnType.NONE))
+        vpn_type: VpnType = VpnType(json.get(AbstractVpnConfig._vpn_type_key, VpnType.NONE))
         if vpn_type != AbstractVpnConfig._vpn_type:
             raise ValueError(f'Invalid VPN type {vpn_type}')
         return AbstractVpnConfig()

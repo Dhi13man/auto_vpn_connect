@@ -172,7 +172,6 @@ cd <path_to_script>
 
 - [Python 3.10+](https://www.python.org/downloads/): Used for developing the script
 - [pyotp](https://pypi.org/project/pyotp/): Used for generating OTPs
-- [zope.interface](https://pypi.org/project/zope.interface/): Used for type hinting
 
 #### External Dependencies
 

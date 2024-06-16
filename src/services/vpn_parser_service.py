@@ -3,16 +3,17 @@ Module for parsing VPN data from JSON
 """
 
 from json import loads
-from zope.interface import implementer
 
 from src.models.vpn_model.abstract_vpn_model import AbstractVpnModel
+from src.models.vpn_model.global_protect_vpn_model import GlobalProtectVpnModel
 from src.models.vpn_model.pritunl_vpn_model import PritunlVpnModel
+from src.models.vpn_config.abstract_vpn_config import AbstractVpnConfig
+from src.models.vpn_config.global_protect_vpn_config import GlobalProtectVpnConfig
 from src.models.vpn_config.pritunl_vpn_config import PritunlVpnConfig
 from src.enums.vpn_type import VpnTypeVisitor, VpnType
 
 
-@implementer(VpnTypeVisitor)
-class _VpnParsingVisitor:
+class _VpnParsingVisitor(VpnTypeVisitor):
     """
     Visitor for parsing VPN data from JSON
 
@@ -21,6 +22,7 @@ class _VpnParsingVisitor:
     """
 
     def __init__(self, data_json: dict, config_json: dict):
+        super().__init__()
         self.data_json: dict = data_json
         self.config_json: dict = config_json
 
@@ -30,7 +32,7 @@ class _VpnParsingVisitor:
 
     def visit_pritunl(self) -> AbstractVpnModel:
         """Visit Pritunl VPN type"""
-        config: PritunlVpnConfig = PritunlVpnConfig.from_json(self.config_json)
+        config: AbstractVpnConfig = PritunlVpnConfig.from_json(self.config_json)
         return PritunlVpnModel.from_json_with_config(self.data_json, config)
 
     def visit_wireguard(self) -> AbstractVpnModel:
@@ -40,6 +42,11 @@ class _VpnParsingVisitor:
     def visit_open_vpn(self) -> AbstractVpnModel:
         """Visit OpenVPN VPN type"""
         raise NotImplementedError
+
+    def visit_global_protect(self) -> AbstractVpnModel:
+        """Visit Global Protect VPN type"""
+        config: AbstractVpnConfig = GlobalProtectVpnConfig.from_json(self.config_json)
+        return GlobalProtectVpnModel.from_json_with_config(self.data_json, config)
 
 
 class VpnDataParserService:

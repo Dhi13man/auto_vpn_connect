@@ -14,22 +14,22 @@ class GlobalProtectVpnConfig(AbstractVpnConfig):
     '''
 
     _vpn_type: VpnType = VpnType.GLOBAL_PROTECT
-    service_load_command_key: str = "service_load_command"
-    servkce_unload_command_key: str = "service_unload_command"
-    process_kill_command_key: str = "process_kill_command"
-    default_service_load_command: str = (
+    _service_load_command_key: str = "service_load_command"
+    _service_unload_command_key: str = "service_unload_command"
+    _process_kill_command_key: str = "process_kill_command"
+    _default_service_load_command: str = (
         "launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist"
     )
-    default_service_unload_command: str = (
+    _default_service_unload_command: str = (
         "launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist"
     )
-    default_process_kill_command: str = "pkill -9 -f GlobalProtect"
+    _default_process_kill_command: str = "pkill -9 -f GlobalProtect"
 
     def __init__(
         self,
-        service_load_command: str = default_service_load_command,
-        service_unload_command: str = default_service_unload_command,
-        process_kill_command: str = default_process_kill_command
+        service_load_command: str = _default_service_load_command,
+        service_unload_command: str = _default_service_unload_command,
+        process_kill_command: str = _default_process_kill_command
     ):
         self.service_load_command: str = service_load_command
         self.service_unload_command: str = service_unload_command
@@ -51,7 +51,7 @@ class GlobalProtectVpnConfig(AbstractVpnConfig):
         Args:
             visitor (VpnTypeVisitor): Visitor to visit the Pritunl VPN with
         '''
-        return visitor.visit_none()
+        return visitor.visit_global_protect()
 
     def to_json(self) -> dict:
         '''
@@ -61,10 +61,10 @@ class GlobalProtectVpnConfig(AbstractVpnConfig):
             str: JSON string of the VPN data
         '''
         return {
-            GlobalProtectVpnConfig.vpn_type_key: self.get_vpn_type().value,
-            GlobalProtectVpnConfig.service_load_command_key: self.service_load_command,
-            GlobalProtectVpnConfig.servkce_unload_command_key: self.service_unload_command,
-            GlobalProtectVpnConfig.process_kill_command_key: self.process_kill_command
+            GlobalProtectVpnConfig._vpn_type_key: self.get_vpn_type().value,
+            GlobalProtectVpnConfig._service_load_command_key: self.service_load_command,
+            GlobalProtectVpnConfig._service_unload_command_key: self.service_unload_command,
+            GlobalProtectVpnConfig._process_kill_command_key: self.process_kill_command
         }
 
     @staticmethod
@@ -76,12 +76,12 @@ class GlobalProtectVpnConfig(AbstractVpnConfig):
             json (dict): JSON string of the VPN data
         '''
         vpn_type: VpnType = VpnType(
-            json.get(GlobalProtectVpnConfig.vpn_type_key, VpnType.GLOBAL_PROTECT)
+            json.get(GlobalProtectVpnConfig._vpn_type_key, VpnType.GLOBAL_PROTECT)
         )
         if vpn_type != GlobalProtectVpnConfig._vpn_type:
             raise ValueError(f'Invalid VPN type {vpn_type}')
         return GlobalProtectVpnConfig(
-            service_load_command=json.get(GlobalProtectVpnConfig.service_load_command_key),
-            service_unload_command=json.get(GlobalProtectVpnConfig.servkce_unload_command_key),
-            process_kill_command=json.get(GlobalProtectVpnConfig.process_kill_command_key)
+            service_load_command=json.get(GlobalProtectVpnConfig._service_load_command_key),
+            service_unload_command=json.get(GlobalProtectVpnConfig._service_unload_command_key),
+            process_kill_command=json.get(GlobalProtectVpnConfig._process_kill_command_key)
         )

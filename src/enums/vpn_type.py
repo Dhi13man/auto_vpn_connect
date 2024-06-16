@@ -4,7 +4,6 @@ Module for VPN type enumeration.
 
 from enum import Enum
 from typing import TypeVar
-from zope.interface import interfacemethod, Interface
 
 T = TypeVar('T')
 
@@ -40,33 +39,28 @@ class VpnType(Enum):
         raise ValueError('VPN Type visit not implemented')
 
 # pylint: disable-next=inherit-non-class
-class VpnTypeVisitor(Interface):
+class VpnTypeVisitor:
     '''
     Visitor for VPN types. This is used to visit the VPN type and return the
     appropriate data.
     '''
 
-    @interfacemethod
     def visit_none(self) -> T:
         '''Visit None VPN data.'''
         raise NotImplementedError
 
-    @interfacemethod
     def visit_pritunl(self) -> T:
         '''Visit Pritunl VPN data.'''
         raise NotImplementedError
 
-    @interfacemethod
     def visit_wireguard(self) -> T:
         '''Visit Wireguard VPN data.'''
         raise NotImplementedError
 
-    @interfacemethod
     def visit_open_vpn(self) -> T:
         '''Visit OpenVPN VPN data.'''
         raise NotImplementedError
 
-    @interfacemethod
     def visit_global_protect(self) -> T:
         '''Visit GlobalProtect VPN data.'''
         raise NotImplementedError
