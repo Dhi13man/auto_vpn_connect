@@ -31,11 +31,13 @@ jobs:
         with:
           cache: pip
           cache-dependency-path: |
+            requirements.in
             requirements.txt
+            requirements-dev.in
             requirements-dev.txt
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
-        run: python -m pip install --disable-pip-version-check -r requirements-dev.txt
+        run: python -m pip install --disable-pip-version-check --require-hashes -r requirements-dev.txt
       - name: Lint with flake8
         run: flake8 $(git ls-files '*.py') --count --select=E9,F63,F7,F82 --show-source --statistics
       - name: Analyze with pylint
