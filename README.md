@@ -2,7 +2,6 @@
 
 [![CI](https://github.com/Dhi13man/auto_vpn_connect/actions/workflows/python-app.yml/badge.svg)](https://github.com/Dhi13man/auto_vpn_connect/actions/workflows/python-app.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Dhi13man/auto_vpn_connect/badge)](https://scorecard.dev/viewer/?uri=github.com/Dhi13man/auto_vpn_connect)
-[![Latest release](https://img.shields.io/github/v/release/Dhi13man/auto_vpn_connect)](https://github.com/Dhi13man/auto_vpn_connect/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Connect, disconnect, or keep supported VPN clients connected from one Python CLI.
@@ -24,9 +23,8 @@ Supported clients:
 
 ## Installation
 
-Download a platform executable from the
-[releases page](https://github.com/Dhi13man/auto_vpn_connect/releases), or run
-the source directly:
+The v0.0.1 and v0.0.2 executables predate the current credential-redaction and
+process-termination fixes and are not supported. Run the current source:
 
 ```bash
 git clone https://github.com/Dhi13man/auto_vpn_connect.git
@@ -59,8 +57,6 @@ On PowerShell, activate the environment with `.venv\Scripts\Activate.ps1`.
    ```bash
    python __main__.py --action c --path vpn_data.json
    ```
-
-For a downloaded executable, replace `python __main__.py` with its filename.
 
 ## Usage
 
