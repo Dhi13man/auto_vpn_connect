@@ -1,28 +1,16 @@
-[build-system]
-requires = ["hatchling", "wheel"]
-build-backend = "hatchling.build"
-
-[project]
-name = "auto_vpn_connect"
-version = "0.0.1"
-authors = [
-  { name="Dhiman Seal", email="dhiman.seal@hotmail.com" },
-]
-description = "A small example package"
-readme = "README.md"
-requires-python = ">=3.10"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-]
-
-[project.urls]
-"Homepage" = "https://github.com/Dhi13man/auto_vpn_connect"
-"Bug Tracker" = "https://github.com/Dhi13man/auto_vpn_connect/issues"
-
 [tool.pytest.ini_options]
-pythonpath = "test"
 addopts = [
     "--import-mode=importlib",
+    "--strict-config",
+    "--strict-markers",
 ]
+pythonpath = ["."]
+testpaths = ["test"]
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+
+[tool.coverage.report]
+fail_under = 70
+show_missing = true

@@ -23,7 +23,7 @@ class GlobalProtectVpnConfig(AbstractVpnConfig):
     _default_service_unload_command: str = (
         "launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist"
     )
-    _default_process_kill_command: str = "pkill -9 -f GlobalProtect"
+    _default_process_kill_command: str = "pkill -TERM -x GlobalProtect"
 
     def __init__(
         self,
@@ -81,7 +81,16 @@ class GlobalProtectVpnConfig(AbstractVpnConfig):
         if vpn_type != GlobalProtectVpnConfig._vpn_type:
             raise ValueError(f'Invalid VPN type {vpn_type}')
         return GlobalProtectVpnConfig(
-            service_load_command=json.get(GlobalProtectVpnConfig._service_load_command_key),
-            service_unload_command=json.get(GlobalProtectVpnConfig._service_unload_command_key),
-            process_kill_command=json.get(GlobalProtectVpnConfig._process_kill_command_key)
+            service_load_command=json.get(
+                GlobalProtectVpnConfig._service_load_command_key,
+                GlobalProtectVpnConfig._default_service_load_command,
+            ),
+            service_unload_command=json.get(
+                GlobalProtectVpnConfig._service_unload_command_key,
+                GlobalProtectVpnConfig._default_service_unload_command,
+            ),
+            process_kill_command=json.get(
+                GlobalProtectVpnConfig._process_kill_command_key,
+                GlobalProtectVpnConfig._default_process_kill_command,
+            ),
         )

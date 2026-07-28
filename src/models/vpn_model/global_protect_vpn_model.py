@@ -1,8 +1,8 @@
 '''
-This file contains the PritunlVpnData class, which is a concrete implementation of the 
-AbstractVpnData class.
+This file contains the GlobalProtectVpnModel implementation of AbstractVpnModel.
 '''
 
+from shlex import split
 from subprocess import run, CompletedProcess
 from time import sleep
 
@@ -13,14 +13,10 @@ from src.enums.vpn_type import VpnType, VpnTypeVisitor, T
 
 class GlobalProtectVpnModel(AbstractVpnModel):
     '''
-    Concrete implementation of the AbstractVpnData class for Global Protect VPNs
+    Concrete AbstractVpnModel implementation for GlobalProtect VPNs.
 
     Attributes:
-        id (str): ID of the Pritunl VPN
-        pin (str): PIN of the Pritunl VPN
-        token (str): Token of the Pritunl VPN
-        totp_url (str): TOTP URL of the Pritunl VPN
-        totp_obj (pyotp.TOTP): TOTP object of the Pritunl VPN
+        vpn_id (str): ID of the GlobalProtect VPN
     '''
 
     _vpn_type: VpnType = VpnType.GLOBAL_PROTECT
@@ -33,7 +29,7 @@ class GlobalProtectVpnModel(AbstractVpnModel):
 
     def get_vpn_type(self) -> VpnType:
         '''
-        Get the type of the Pritunl VPN.
+        Get the type of the GlobalProtect VPN.
 
         Returns:
             VpnType: Type of the VPN
@@ -42,49 +38,49 @@ class GlobalProtectVpnModel(AbstractVpnModel):
 
     def connect(self, verbose: bool) -> CompletedProcess:
         '''
-        Connect to the Pritunl VPN.
+        Connect to the GlobalProtect VPN.
 
         Args:
             verbose (bool): Whether to print the output of the connection process
         '''
         if verbose:
             print(f'Connecting to {self.get_vpn_id()}...')
-        process: CompletedProcess = run(self.service_load_command.split(), check=False)
+        process: CompletedProcess = run(split(self.service_load_command), check=False)
         if verbose:
-            print('Connect process completed!')
-            print(f'Result: {process.stdout}; Error: {process.stderr}')
+            print('GlobalProtect connect command completed!')
+            print(f'Return code: {process.returncode}')
         return process
 
     def disconnect(self, verbose: bool) -> CompletedProcess:
         '''
-        Disconnect from the Pritunl VPN.
+        Disconnect from the GlobalProtect VPN.
 
         Args:
             verbose (bool): Whether to print the output of the disconnection process
         '''
         if verbose:
             print(f'Disconnecting from {self.get_vpn_id()}')
-        unloading_process: CompletedProcess = run(self.service_unload_command.split(), check=False)
+        unloading_process: CompletedProcess = run(
+            split(self.service_unload_command), check=False
+        )
         sleep(1)
-        kill_process: CompletedProcess = run(self.process_kill_command.split(), check=False)
+        kill_process: CompletedProcess = run(
+            split(self.process_kill_command), check=False
+        )
         if verbose:
-            print('Disconnect process completed!')
-            print(
-                f'Unloading Result: {unloading_process.stdout}; Error: {unloading_process.stderr}'
-            )
-            print(
-                f'Kill Result: {kill_process.stdout}; Error: {kill_process.stderr}'
-            )
+            print('GlobalProtect disconnect commands completed!')
+            print(f'Unload return code: {unloading_process.returncode}')
+            print(f'Process stop return code: {kill_process.returncode}')
         return kill_process
 
     def visit(self, visitor: 'VpnTypeVisitor[T]') -> T:
         '''
-        Visit the Pritunl VPN with a VpnTypeVisitor.
+        Visit the GlobalProtect VPN with a VpnTypeVisitor.
 
         Args:
-            visitor (VpnTypeVisitor): Visitor to visit the Pritunl VPN with
+            visitor (VpnTypeVisitor): Visitor to visit the GlobalProtect VPN with
         '''
-        return visitor.visit_pritunl()
+        return visitor.visit_global_protect()
 
     def to_json(self) -> dict:
         return {

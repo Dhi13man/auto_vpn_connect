@@ -8,29 +8,19 @@
             "vpn_type": "GLOBAL_PROTECT",
             "service_load_command": "launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist",
             "service_unload_command": "launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist",
-            "process_kill_command": "pkill -9 -f GlobalProtect"
+            "process_kill_command": "pkill -TERM -x GlobalProtect"
         }
     },
     "vpn_list": [
         {
-            "vpn_id": "<vpn_id_1>",
+            "vpn_id": "<vpn_id>",
             "vpn_type": "PRITUNL",
-            "pin": "<vpn_pin_1>"
-        },
-        {
-            "vpn_id": "<vpn_id_2>",
-            "vpn_type": "PRITUNL",
-            "pin": "<vpn_pin_2>",
-            "totp_url": "<totp_url>"
-        },
-        {
-            "vpn_id": "<vpn_id_3>",
-            "vpn_type": "PRITUNL", 
-            "pin": "<vpn_pin_3>",
+            "pin": "<vpn_pin>",
+            "totp_url": "<totp_url>",
             "token": "<vpn_token>"
         },
         {
-            "vpn_id": "GP1",
+            "vpn_id": "GlobalProtect",
             "vpn_type": "GLOBAL_PROTECT"
         }
     ]
