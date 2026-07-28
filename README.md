@@ -36,7 +36,7 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-On Windows, activate the environment with `.venv\Scripts\activate`.
+On PowerShell, activate the environment with `.venv\Scripts\Activate.ps1`.
 
 ## Quick start
 
