@@ -13,17 +13,17 @@ class UserSwitches:
         verbose (bool): Whether to run in verbose mode. DEFAULT false
     '''
 
-    def __init__(self, action: chr, vpn_data_json_path: str, verbose: bool = False):
-        self.action: chr = action
+    def __init__(self, action: str, vpn_data_json_path: str, verbose: bool = False):
+        self.action: str = action
         self.vpn_data_json_path: str = vpn_data_json_path
         self.verbose: bool = verbose
 
-    def get_action(self) -> chr:
+    def get_action(self) -> str:
         '''
         Get the action to take.
 
         Returns:
-            chr: Action to take. "w" for always-connected, "c" for connect, "d" for disconnect
+            str: Action to take. "w" for always-connected, "c" for connect, "d" for disconnect
         '''
         return self.action
 

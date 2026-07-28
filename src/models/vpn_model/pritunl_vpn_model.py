@@ -92,7 +92,6 @@ class PritunlVpnModel(AbstractVpnModel):
         token: str = self.get_token()
         if verbose:
             print(f"Connecting to {self.get_vpn_id()}...")
-            print(f"Pin: {pin}; TOTP: {vpn_totp}; Token: {token}")
         process: CompletedProcess = run(
             [
                 self.cli_path,
@@ -104,8 +103,8 @@ class PritunlVpnModel(AbstractVpnModel):
             check=False,
         )
         if verbose:
-            print("Connect process completed!")
-            print(f"Result: {process.stdout}; Error: {process.stderr}")
+            print("Pritunl connect command completed!")
+            print(f"Return code: {process.returncode}")
         return process
 
     def disconnect(self, verbose: bool) -> CompletedProcess:
@@ -122,8 +121,8 @@ class PritunlVpnModel(AbstractVpnModel):
             check=False,
         )
         if verbose:
-            print("Disconnect process completed!")
-            print(f"Result: {process.stdout}; Error: {process.stderr}")
+            print("Pritunl disconnect command completed!")
+            print(f"Return code: {process.returncode}")
         return process
 
     def visit(self, visitor: "VpnTypeVisitor[T]") -> T:

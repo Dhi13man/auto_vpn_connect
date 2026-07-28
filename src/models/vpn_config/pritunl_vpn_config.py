@@ -61,4 +61,9 @@ class PritunlVpnConfig(AbstractVpnConfig):
         vpn_type: VpnType = VpnType(json.get(PritunlVpnConfig._vpn_type_key, VpnType.PRITUNL))
         if vpn_type != PritunlVpnConfig._vpn_type:
             raise ValueError(f'Invalid VPN type {vpn_type}')
-        return PritunlVpnConfig(cli_path=json.get(PritunlVpnConfig._cli_path_key))
+        return PritunlVpnConfig(
+            cli_path=json.get(
+                PritunlVpnConfig._cli_path_key,
+                PritunlVpnConfig._default_cli_path,
+            )
+        )

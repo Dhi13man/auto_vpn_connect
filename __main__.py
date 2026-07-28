@@ -35,9 +35,7 @@ def get_user_switches() -> UserSwitches:
         '-v',
         '--verbose',
         help='Whether to run in verbose mode. DEFAULT false',
-        type=bool,
-        default=False,
-        required=False
+        action='store_true'
     )
     args: argparse.Namespace = parser.parse_args()
     if args.action is None and args.path is None and args.verbose is False:

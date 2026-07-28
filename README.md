@@ -1,212 +1,146 @@
 # auto_vpn_connect
 
-[![License](https://img.shields.io/github/license/dhi13man/auto_vpn_connect)](https://github.com/Dhi13man/auto_vpn_connect/blob/main/LICENSE)
-[![Contributors](https://img.shields.io/github/contributors-anon/dhi13man/auto_vpn_connect?style=flat)](https://github.com/Dhi13man/auto_vpn_connect/graphs/contributors)
-[![GitHub forks](https://img.shields.io/github/forks/dhi13man/auto_vpn_connect?style=social)](https://github.com/Dhi13man/auto_vpn_connect/network/members)
-[![GitHub Repo stars](https://img.shields.io/github/stars/dhi13man/auto_vpn_connect?style=social)](https://github.com/Dhi13man/auto_vpn_connect/stargazers)
-[![Last Commit](https://img.shields.io/github/last-commit/dhi13man/auto_vpn_connect)](https://github.com/Dhi13man/auto_vpn_connect/commits/main)
-[![Build, Format, Test](https://github.com/dhi13man/auto_vpn_connect/actions/workflows/python-app.yml/badge.svg)](https://github.com/Dhi13man/auto_vpn_connect/actions)
+[![CI](https://github.com/Dhi13man/auto_vpn_connect/actions/workflows/python-app.yml/badge.svg)](https://github.com/Dhi13man/auto_vpn_connect/actions/workflows/python-app.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Dhi13man/auto_vpn_connect/badge)](https://scorecard.dev/viewer/?uri=github.com/Dhi13man/auto_vpn_connect)
+[![Latest release](https://img.shields.io/github/v/release/Dhi13man/auto_vpn_connect)](https://github.com/Dhi13man/auto_vpn_connect/releases/latest)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-[![Language](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
-[!["Buy Me A Coffee"](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20an%20Ego%20boost&emoji=%F0%9F%98%B3&slug=dhi13man&button_colour=FF5F5F&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00****)](https://www.buymeacoffee.com/dhi13man)
+Connect, disconnect, or keep supported VPN clients connected from one Python CLI.
 
-This is a Python script that allows users to automatically connect to VPNs with minimal effort. VPNs supported as of now:
+Supported clients:
 
-1. [Pritunl VPN Client](https://docs.pritunl.com/docs/command-line-interface)
-2. [Palo Alto Global Protect](https://docs.paloaltonetworks.com/globalprotect)
-    1. For a more lightweight script that only solves the Global Protect VPN use case, check out my [global_protect_controller](https://github.com/Dhi13man/global_protect_controller) project.
+- [Pritunl Client](https://client.pritunl.com/)
+- [Palo Alto GlobalProtect](https://docs.paloaltonetworks.com/globalprotect)
+
+> **Warning**: The local configuration can contain VPN PINs, tokens, and TOTP
+> secrets. Keep `vpn_data.json` private and never commit it.
+
+## Prerequisites
+
+- Python 3.10 or later when running from source
+- The desktop client for each configured VPN
+- Pritunl's `pritunl-client` command for Pritunl profiles
+- macOS `launchctl` and `pkill` for the default GlobalProtect commands
+
+## Installation
+
+Download a platform executable from the
+[releases page](https://github.com/Dhi13man/auto_vpn_connect/releases), or run
+the source directly:
+
+```bash
+git clone https://github.com/Dhi13man/auto_vpn_connect.git
+cd auto_vpn_connect
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+On Windows, activate the environment with `.venv\Scripts\activate`.
+
+## Quick start
+
+1. Copy the example configuration:
+
+   ```bash
+   cp vpn_data.example.json vpn_data.json
+   ```
+
+2. Replace the placeholders in `vpn_data.json` with your VPN profiles.
+
+3. Restrict access to the file on Unix-like systems:
+
+   ```bash
+   chmod 600 vpn_data.json
+   ```
+
+4. Connect all configured VPNs:
+
+   ```bash
+   python __main__.py --action c --path vpn_data.json
+   ```
+
+For a downloaded executable, replace `python __main__.py` with its filename.
 
 ## Usage
 
-### Steps
-
-1. Go to the [releases](https://github.com/Dhi13man/auto_vpn_connect/releases) page and download the latest release binary, or clone this repository.
-
-2. In the same directory as the script, or inside the root of the repository, create (or edit) a file called `vpn_data.json` and fill it with the following information (replace the values with your own):
-
-    ```json
-    {
-        "config": {
-            "PRITUNL": {
-                "vpn_type": "PRITUNL",
-                "cli_path": "/Applications/Pritunl.app/Contents/Resources/pritunl-client"
-            },
-            "GLOBAL_PROTECT": {
-                "vpn_type": "GLOBAL_PROTECT",
-                "service_load_command": "launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist",
-                "service_unload_command": "launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist",
-                "process_kill_command": "pkill -9 -f GlobalProtect"
-            }
-        },
-        "vpn_list": [
-            {
-                "vpn_id": "<vpn_id_1>",
-                "vpn_type": "PRITUNL",
-                "pin": "<vpn_pin_1>"
-            },
-            {
-                "vpn_id": "<vpn_id_2>",
-                "vpn_type": "PRITUNL",
-                "pin": "<vpn_pin_2>",
-                "totp_url": "<totp_url>"
-            },
-            {
-                "vpn_id": "<vpn_id_3>",
-                "vpn_type": "PRITUNL", 
-                "pin": "<vpn_pin_3>",
-                "token": "<vpn_token>"
-            },
-            {
-                "vpn_id": "GlobalProtect",
-                "vpn_type": "GLOBAL_PROTECT"
-            }
-        ]
-    }
-    ```
-
-3. After ensuring that the `vpn_data.json` is proper, run the downloaded binary, or the script with `python3 -m .` from the root of the repository along with the proper switches.
-
-### Finding the VPN Data
-
-#### Pritunl VPN Client
-
-1. _`vpn_list.{item}.vpn_id`_: In the Pritunl VPN Client, go to the `Settings` of the respective VPN Profile to find the VPN ID or use the `pritunl-client` CLI command `list` to get the list of VPNs and their IDs.
-
-    ```bash
-    /Applications/Pritunl.app/Contents/Resources/pritunl-client list
-    ```
-
-2. _`vpn_list.{item}.pin`_: This is the PIN that you use to connect to the VPN. If there is no PIN, leave the field blank.
-
-3. _`vpn_list.{item}.totp_url`_: This is the URL in the payload of the TOTP QR code that you use to connect to the VPN. If there is no TOTP QR code, leave the field blank.
-
-4. _`vpn_list.{item}.token`_: This is the token that you use to connect to the VPN. If there is no token, leave the field blank.
-
-5. _`vpn_list.{item}.vpn_type`_: This is the type of VPN that you are connecting to. For Pritunl VPN client, this will be `PRITUNL`.
-
-6. _`config.PRITUNL.cli_path`_: This is the path to the Pritunl VPN Client CLI. If the Pritunl VPN Client is installed in the default location, leave the field blank.
-
-Further resources:
-
-1. [Pritunl VPN Client CLI](https://docs.pritunl.com/docs/command-line-interface)
-2. [Pritunl VPN Client UI](https://client.pritunl.com/)
-
-##### Pritunl VPN Client Screenshots
-
-| ![VPN ID in Pritunl Client UI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/get_pritunl_id_ui.png) | ![VPN ID in Pritunl Client CLI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/get_pritunl_id_cli.png) |
-|:--:|:--:|
-| VPN ID in Pritunl Client UI | VPN ID in Pritunl Client CLI |
-
-| ![Add VPN in Pritunl Client UI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/add_pritunl_vpn_ui.png) | ![Add VPN in Pritunl Client CLI](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/pritunl/add_pritunl_vpn_cli.png) |
-|:--:|:--:|
-| Add VPN in Pritunl Client UI | Add VPN using Pritunl Client CLI |
-
-#### Global Protect VPN Client
-
-Global Protect VPN does not have the hassle of managing multiple connections. You only have to put in a config with a dummy VPN ID as shown in the example above and then sign in with SSO whenever you use the CLI to connect to it. Disconnecting from Global Protect will require no additional input.
-
-### User Switches
-
-1. _Action Switch_ `-a` / `--action` (optional): The action switch allows the user to specify the action that the script should perform. If the action switch is not specified, the script will run in interactive mode, which will prompt the user to select an action.
-
-    ```bash
-    cd <path_to_script>
-    ./auto_vpn_connect --action <action>
-    ```
-
-    ```bash
-    cd <path_to_repository>
-    python3 -m . -a <action> 
-    ```
-
-    Running with action switch will run the script with the specified action. The available actions are:
-
-    - `c`: Connects to the VPNs
-    - `d`: Disconnects from the VPNs
-    - `w`: Runs the script in watch mode, which will automatically re-attempt connecting to the VPNs when they disconnect.
-
-2. _VPN Data Path Switch_ `-p` / `--path` (optional): The VPN Data Path Switch allows the user to specify the absolute path to the `vpn_data.json` file. If the switch is not specified, the script will look for the file in the directory it is run from, or in the root of the repository, if the script is run from the root of the cloned repository.
-
-    ```bash
-    cd <path_to_script>
-    ./auto_vpn_connect -p <path_to_vpn_data.json>
-    ```
-
-    ```bash
-    cd <path_to_repository>
-    python3 -m . --path <path_to_vpn_data.json>
-    ```
-
-3. _Verbose Switch_ `-v` / `--verbose` (optional): The verbose switch allows the user to specify whether the script should print verbose output. If the switch is not specified, the script will run in non-verbose mode.
-
-    ```bash
-    cd <path_to_script>
-    ./auto_vpn_connect --verbose true
-    ```
-
-    ```bash
-    cd <path_to_repository>
-    python3 -m . -v true
-    ```
-
-### Examples
-
-```bash
-cd <path_to_script>
-./auto_vpn_connect --action c --path <path_to_folder>/vpn_data.json --verbose true
+```text
+usage: __main__.py [-h] [-a ACTION] [-p PATH] [-v]
 ```
 
-```bash
-cd <path_to_repository>
-python3 -m . --action w --path <path_to_folder>/vpn_data.json --verbose false
-```
+| Option | Purpose | Default |
+| ------ | ------- | ------- |
+| `-a`, `--action` | `c`, `d`, or `w` | Prompt |
+| `-p`, `--path` | Path to the local VPN configuration | `./vpn_data.json` |
+| `-v`, `--verbose` | Print profile names and return codes | Disabled |
+
+Action `w` retries the connection every five seconds.
+
+Examples:
 
 ```bash
-cd <path_to_script>
-./auto_vpn_connect --action d
+python __main__.py --action c --path vpn_data.json
+python __main__.py --action d --verbose
+python __main__.py --action w --path /secure/path/vpn_data.json
 ```
+
+Verbose output never prints configured PINs, TOTP values, or tokens.
+
+## Configuration
+
+Start from [`vpn_data.example.json`](vpn_data.example.json). Each item in
+`vpn_list` requires a `vpn_id` and a supported `vpn_type`.
+
+### Pritunl
+
+| Field | Purpose |
+| ----- | ------- |
+| `vpn_id` | Profile ID from `pritunl-client list` or the client UI |
+| `pin` | Optional profile PIN |
+| `totp_url` | Optional `otpauth://` URI from the profile's TOTP setup |
+| `token` | Optional profile token |
+| `config.PRITUNL.cli_path` | Path to `pritunl-client` |
+
+Pritunl combines the configured authentication values for the client's `-p`
+argument. Other users on the same machine may be able to inspect process
+arguments, so use this tool only on a trusted workstation.
+
+### GlobalProtect
+
+GlobalProtect uses the commands under `config.GLOBAL_PROTECT`. The defaults
+load and unload Palo Alto's macOS launch agent, then send `SIGTERM` only to a
+process whose exact name is `GlobalProtect`.
+
+The command fields are executed directly without a shell. They still control
+which local executables run, so edit them only in a trusted configuration.
 
 ## Development
 
-### Setup
-
-1. Clone the repository
-2. Install the [Development Dependencies](#dependencies) with `pip3 install -r requirements.txt`
-3. Run `python3 -m .` from the root of the repository
-
-### Dependencies
-
-#### Development Dependencies
-
-- [Python 3.10+](https://www.python.org/downloads/): Used for developing the script
-- [pyotp](https://pypi.org/project/pyotp/): Used for generating OTPs
-
-#### External Dependencies
-
-- [Pritunl VPN Client](https://docs.pritunl.com/docs/command-line-interface): Used for connecting, disconnecting to VPNs (only supported VPN Client type as of now)
-
-## Build
-
-This project uses [PyInstaller](https://www.pyinstaller.org/) to build the binary. To build the binary, run the following command from the root of the repository:
+Install the pinned development tools:
 
 ```bash
-pyinstaller --onefile --windowed __main__.py
+python -m pip install -r requirements-dev.txt
 ```
 
-This will create a `dist` folder in the root of the repository, which will contain the binary without any dependencies.
+Run the same quality gates used in CI:
 
-The binary can be run from anywhere following the [Usage](#usage) instructions.
+```bash
+flake8 $(git ls-files '*.py') --count --select=E9,F63,F7,F82 --show-source --statistics
+pylint $(git ls-files '*.py')
+python -m pip_audit -r requirements-dev.txt
+python -m pytest --cov=src --cov-report=term-missing --cov-fail-under=70
+pyinstaller --onefile --noconsole --name auto_vpn_connect __main__.py
+```
 
-## Contributing
+Tests mock subprocess and time boundaries. They do not run Pritunl,
+GlobalProtect, `launchctl`, or `pkill`.
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+## Contributing and security
 
-## Screenshots
+See [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Report
+vulnerabilities through the process in [SECURITY.md](SECURITY.md), not a public
+issue.
 
-| ![Connect using Repository with VPN Data Config Path Provided](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/connect_vpn_data_config_path.png) |
-|:--:|
-| Connect using Repository, with VPN Data Config Path Provided |
+## License
 
-| ![Disconnect with CLI in Verbose Mode](https://raw.githubusercontent.com/Dhi13man/auto_vpn_connect/main/assets/screenshots/disconnect_verbose.png) |
-|:--:|
-| Disconnect using CLI, in Verbose Mode |
+Licensed under the [MIT License](LICENSE).
