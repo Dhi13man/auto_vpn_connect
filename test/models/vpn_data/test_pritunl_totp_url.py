@@ -1,13 +1,14 @@
 """Tests for parsing Pritunl TOTP provisioning URIs."""
 
+import base64
 import hashlib
 
 import pytest
 
 from src.models.vpn_model.pritunl_vpn_model import parse_totp_url
 
-# RFC 6238 appendix B SHA1 test key "12345678901234567890" in Base32 (160 bits).
-RFC_6238_SECRET: str = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ"
+# RFC 6238 appendix B SHA1 test key (160 bits), Base32-encoded at runtime.
+RFC_6238_SECRET: str = base64.b32encode(b"12345678901234567890").decode()
 
 
 class TestParseTotpUrl:
