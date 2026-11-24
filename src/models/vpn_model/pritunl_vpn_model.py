@@ -3,12 +3,69 @@ This file contains the PritunlVpnData class, which is a concrete implementation 
 AbstractVpnData class.
 """
 
+import hashlib
 from subprocess import run, CompletedProcess
-from pyotp import totp, parse_uri
+from urllib.parse import parse_qsl, unquote, urlparse
+
+from pyotp import totp
 
 from src.models.vpn_model.abstract_vpn_model import AbstractVpnModel
 from src.enums.vpn_type import VpnType, VpnTypeVisitor, T
 from src.models.vpn_config.pritunl_vpn_config import PritunlVpnConfig
+
+
+class _PritunlTotp(totp.TOTP):
+    """
+    TOTP generator for secrets issued by a Pritunl server.
+
+    pyotp >= 2.12 rejects secrets shorter than 112 bits, but Pritunl issues
+    16-character Base32 (80-bit) secrets by default. As a client, this app has
+    to generate codes for whatever secret the server issued, so it accepts
+    80-bit secrets while still validating the Base32 encoding.
+    """
+
+    min_secret_length_bits = 80
+
+
+_TOTP_DIGESTS: dict = {
+    "SHA1": hashlib.sha1,
+    "SHA256": hashlib.sha256,
+    "SHA512": hashlib.sha512,
+}
+
+
+def parse_totp_url(totp_url: str) -> totp.TOTP:
+    """
+    Parse an ``otpauth://totp/...`` URI into a TOTP generator.
+
+    Args:
+        totp_url (str): Provisioning URI of the TOTP secret
+
+    Returns:
+        pyotp.TOTP: TOTP generator for the URI
+
+    Raises:
+        ValueError: If the URI is not a valid TOTP provisioning URI
+    """
+    parsed = urlparse(totp_url)
+    if parsed.scheme != "otpauth" or parsed.netloc != "totp":
+        raise ValueError("Not an otpauth://totp URI")
+    params: dict = dict(parse_qsl(parsed.query))
+    secret: str = params.get("secret", "")
+    if not secret:
+        raise ValueError("No secret found in URI")
+    algorithm: str = params.get("algorithm", "SHA1").upper()
+    if algorithm not in _TOTP_DIGESTS:
+        raise ValueError("Invalid value for algorithm, must be SHA1, SHA256 or SHA512")
+    label: list = parsed.path[1:].split(":", 1)
+    return _PritunlTotp(
+        secret,
+        digits=int(params.get("digits", 6)),
+        digest=_TOTP_DIGESTS[algorithm],
+        name=unquote(label[-1]) or None,
+        issuer=params.get("issuer") or (unquote(label[0]) if len(label) > 1 else None),
+        interval=int(params.get("period", 30)),
+    )
 
 
 class PritunlVpnModel(AbstractVpnModel):
@@ -41,7 +98,7 @@ class PritunlVpnModel(AbstractVpnModel):
         self.cli_path: str = config.cli_path
         self.pin: str = pin
         self.totp_url: str = totp_url
-        self.totp_obj: totp.TOTP = parse_uri(totp_url) if len(totp_url) > 0 else None
+        self.totp_obj: totp.TOTP = parse_totp_url(totp_url) if len(totp_url) > 0 else None
         self.token: str = token
 
     def get_vpn_type(self) -> VpnType:
