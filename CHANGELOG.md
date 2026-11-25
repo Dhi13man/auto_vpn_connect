@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Changed
+
+- Upgrade `pyotp` to 2.12.1. TOTP URIs are now parsed by the app so the
+  16-character (80-bit) Base32 secrets Pritunl issues by default keep working
+  with pyotp's stricter secret-length check.
+
 ### Security
 
 - Prevent verbose Pritunl connections from logging PIN, TOTP, or token values.

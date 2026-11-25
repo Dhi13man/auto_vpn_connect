@@ -26,7 +26,7 @@ class TestVpnParserService:
         mock_pin: str = "test_pin"
         mock_token: str = "test_token"
         mock_totp_url: str = (
-            "otpauth://totp/test.package@tester?secret=TEST_SECRET&issuer=test"
+            "otpauth://totp/test.package@tester?secret=JBSWY3DPEHPK3PXP&issuer=test"
         )
         mock_vpn_data: dict = {
             "vpn_list": [
