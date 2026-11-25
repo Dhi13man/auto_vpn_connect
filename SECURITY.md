@@ -2,8 +2,9 @@
 
 ## Supported versions
 
-Security fixes are made on the `main` branch. The v0.0.1 and v0.0.2 executables
-predate the current security fixes and are not supported.
+Security fixes are made on the `main` branch. The supported executable version
+is 0.0.3. The v0.0.1 and v0.0.2 executables predate the current security fixes
+and are not supported.
 
 ## Reporting a vulnerability
 
