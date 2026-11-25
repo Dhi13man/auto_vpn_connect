@@ -1,12 +1,14 @@
 # Releases
 
-## Unreleased
+## [0.0.3] - 25th November 2026
 
 ### Changed
 
 - Upgrade `pyotp` to 2.12.1. TOTP URIs are now parsed by the app so the
   16-character (80-bit) Base32 secrets Pritunl issues by default keep working
   with pyotp's stricter secret-length check.
+- Enforce hash-verified dependency installs with `--require-hashes`.
+- Upgrade `pyinstaller` to 6.22.3.
 
 ### Security
 

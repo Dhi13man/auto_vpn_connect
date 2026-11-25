@@ -24,7 +24,12 @@ Supported clients:
 ## Installation
 
 The v0.0.1 and v0.0.2 executables predate the current credential-redaction and
-process-termination fixes and are not supported. Run the current source:
+process-termination fixes and are not supported. Download the 0.0.3 release
+assets, or run the current source:
+
+- macOS: [auto_vpn_connect-0.0.3-macos-apple](https://github.com/Dhi13man/auto_vpn_connect/releases/download/0.0.3/auto_vpn_connect-0.0.3-macos-apple)
+- Ubuntu: [auto_vpn_connect-0.0.3-ubuntu-64](https://github.com/Dhi13man/auto_vpn_connect/releases/download/0.0.3/auto_vpn_connect-0.0.3-ubuntu-64)
+- Windows: [auto_vpn_connect-0.0.3-windows-64.exe](https://github.com/Dhi13man/auto_vpn_connect/releases/download/0.0.3/auto_vpn_connect-0.0.3-windows-64.exe)
 
 ```bash
 git clone https://github.com/Dhi13man/auto_vpn_connect.git
